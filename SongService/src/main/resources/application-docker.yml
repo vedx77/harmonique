@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    url: jdbc:mysql://mysql:3306/harmonique_songservice
+    username: harmonique_user
+    password: harmonique_pass
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server-container:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+
+song:
+  upload:
+    dir: uploads/songs
+  access:
+    url: http://song-service-container:8082/songs/files
+
+logging:
+  file:
+    name: logs/song-service.log

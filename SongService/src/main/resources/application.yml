@@ -1,0 +1,35 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: song-service
+  profiles:
+    active: local
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+
+jwt:
+  secret: c1a594503aaa9d92c02494a17ae59d358fb6ae75a71c8a8607295fdfd3d4c38b
+  token-validity: 600000
+
+song:
+  upload:
+    dir: uploads/songs
+  access:
+    url: http://localhost:8082/songs/files
+
+logging:
+  level:
+    org.springframework: INFO
+    com.harmonique: DEBUG
+    org.springdoc: DEBUG
+  file:
+    name: logs/song-service.log
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n"
