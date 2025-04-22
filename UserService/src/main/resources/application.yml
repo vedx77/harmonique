@@ -1,0 +1,27 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: user-service
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+
+jwt:
+  secret: c1a594503aaa9d92c02494a17ae59d358fb6ae75a71c8a8607295fdfd3d4c38b
+  token-validity: 600000
+
+logging:
+  level:
+    org.springframework: INFO
+    com.harmonique: DEBUG
+    org.springdoc: DEBUG
