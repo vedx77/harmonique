@@ -1,0 +1,71 @@
+services:
+  mysql:
+    image: mysql:8.3
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: harmonique_userservice
+      MYSQL_USER: harmonique_user
+      MYSQL_PASSWORD: harmonique_pass
+    ports:
+      - "3307:3306"
+    networks:
+      - harmonique-network
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: on-failure
+
+  eureka-server:
+    build:
+      context: ./EurekaServer
+    image: harmonique-eureka-server
+    container_name: eureka-server-container
+    ports:
+      - "8761:8761"
+    networks:
+      - harmonique-network
+    restart: on-failure
+    depends_on:
+      - mysql
+
+  user-service:
+    build:
+      context: ./UserService
+    image: harmonique-user-service
+    container_name: user-service-container
+    depends_on:
+      - mysql
+      - eureka-server
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/harmonique_userservice
+      SPRING_DATASOURCE_USERNAME: harmonique_user
+      SPRING_DATASOURCE_PASSWORD: harmonique_pass
+    ports:
+      - "8081:8081"
+    networks:
+      - harmonique-network
+    restart: on-failure
+
+  api-gateway:
+    build:
+      context: ./API-Gateway
+    image: harmonique-api-gateway
+    container_name: api-gateway-container
+    depends_on:
+      - eureka-server
+      - user-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "8080:8080"
+    networks:
+      - harmonique-network
+    restart: on-failure
+
+volumes:
+  mysql_data:
+
+networks:
+  harmonique-network:
+    driver: bridge
