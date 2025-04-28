@@ -11,24 +11,15 @@ import java.time.LocalDateTime;
 public class SongResponse {
 
     private Long id;
-
     private String title;
-
     private String artist;
-
     private String album;
-    
     private String genre;
-    
     private String language;
-
     private String duration;
-
     private String url;
-    
     private String uploadedBy;
-
+    private String imageUrl;
     private LocalDateTime createdAt;
-
     private LocalDateTime updatedAt;
 }

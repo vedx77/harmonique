@@ -6,6 +6,9 @@ spring:
     name: song-service
   profiles:
     active: local
+  web:
+    resources:
+      add-mappings: false
 
 springdoc:
   api-docs:
@@ -22,7 +25,7 @@ song:
   upload:
     dir: uploads/songs
   access:
-    url: http://localhost:8082/songs/files
+    url: http://localhost:8082/songs/files/
 
 logging:
   level:

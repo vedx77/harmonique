@@ -22,6 +22,9 @@ public class Song {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @Column(nullable = false)
     private String title;
 
@@ -38,8 +41,6 @@ public class Song {
     private String duration;  // Format like "03:30", stored as string
 
     private String url;  // Song file location (local or cloud)
-
-    private String coverImageUrl;  // Optional thumbnail
 
     private String description;
 

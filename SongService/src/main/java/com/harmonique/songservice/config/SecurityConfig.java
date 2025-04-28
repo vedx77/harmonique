@@ -26,9 +26,9 @@ public class SecurityConfig {
                 		"/swagger-ui/**", 
                 		"/v3/api-docs/**").permitAll()
                 .requestMatchers(HttpMethod.POST, 
-                		"/songs/add", 
-                		"/songs/update/**", 
-                		"/songs/delete/**").hasRole("ADMIN")
+                		"api/songs/add", 
+                		"api/songs/update/**", 
+                		"api/songs/delete/**").hasRole("ADMIN")
                 .anyRequest().permitAll()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

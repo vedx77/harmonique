@@ -230,6 +230,17 @@ public class SongServiceImpl implements SongService {
                 request.setAlbum(getSafeTag(tag, "TALB"));
                 request.setGenre(getSafeTag(tag, "TCON"));
 
+                // 🖼️ Extract embedded image (album art)
+                var artwork = tag.getFirstArtwork();
+                if (artwork != null) {
+                    byte[] imageData = artwork.getBinaryData();
+                    String imageFileName = System.currentTimeMillis() + "_cover.jpg";
+                    Path imagePath = Paths.get(uploadDir).resolve(imageFileName);
+                    Files.write(imagePath, imageData);  // Save image file
+                    String imageUrl = accessUrl + imageFileName;
+                    request.setImageUrl(imageUrl);  // ✅ Correctly setting image URL
+                }
+
                 log.info("📝 Metadata extracted | Title: '{}', Artist: '{}', Album: '{}', Genre: '{}'",
                         request.getTitle(), request.getArtist(), request.getAlbum(), request.getGenre());
             }
@@ -261,13 +272,16 @@ public class SongServiceImpl implements SongService {
                 .artist(song.getArtist())
                 .album(song.getAlbum())
                 .genre(song.getGenre())
+                .language(song.getLanguage())
                 .duration(song.getDuration())
                 .url(song.getUrl())
                 .uploadedBy(song.getUploadedBy())
+                .imageUrl(song.getImageUrl())
                 .createdAt(song.getCreatedAt())
                 .updatedAt(song.getUpdatedAt())
                 .build();
     }
+
 
     private Song mapToEntity(SongRequest request) {
         return Song.builder()
@@ -275,8 +289,11 @@ public class SongServiceImpl implements SongService {
                 .artist(request.getArtist())
                 .album(request.getAlbum())
                 .genre(request.getGenre())
+                .language(request.getLanguage())
                 .duration(request.getDuration())
                 .url(request.getUrl())
+                .imageUrl(request.getImageUrl())
+                .uploadedBy(request.getUploadedBy())
                 .build();
     }
 }
