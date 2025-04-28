@@ -11,21 +11,16 @@ spring:
           - id: user-auth
             uri: lb://user-service
             predicates:
-              - Path=/auth/**
+              - Path=/api/auth/**
           - id: user-admin
             uri: lb://user-service
             predicates:
-              - Path=/admin/**
+              - Path=/api/admin/**
           - id: user-profile
             uri: lb://user-service
             predicates:
-              - Path=/user/**
+              - Path=/api/user/**
           - id: song-service
             uri: http://localhost:8082
             predicates:
-              - Path=/api/song/**
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
+              - Path=/api/songs/**
