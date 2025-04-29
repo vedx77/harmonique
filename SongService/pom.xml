@@ -112,12 +112,12 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- User Service -->
+		<!-- User Service 
 		<dependency>
 			<groupId>com.harmonique</groupId>
 			<artifactId>userservice</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+		</dependency>-->
 
 		<!-- J-Audio Tagger -->
 		<dependency>

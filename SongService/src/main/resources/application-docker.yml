@@ -29,7 +29,7 @@ song:
   upload:
     dir: uploads/songs
   access:
-    url: http://song-service-container:8082/songs/files
+    url: http://song-service:8082/songs/files
 
 logging:
   file:
