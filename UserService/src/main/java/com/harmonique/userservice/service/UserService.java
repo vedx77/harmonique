@@ -21,13 +21,9 @@ public interface UserService {
     // 3. Get Own Profile (by JWT Token User)
     UserResponse getUserProfile(String username);
 
-    // 4. Role Management - Add Role
-    String addRole(String roleName);
-
-    // 5. Register New Admin
+    // 4. Register New Admin
     UserResponse registerAdmin(UserRequest request);
     
-    // 6. Get all User Details
+    // 5. Get all User Details
     List<UserResponse> getAllUsers();
-
 }

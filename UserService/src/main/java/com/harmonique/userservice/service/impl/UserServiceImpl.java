@@ -104,22 +104,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String addRole(String roleName) {
-        boolean roleExists = roleRepository.existsByName(roleName);
-        if (roleExists) {
-            throw new RuntimeException("Role already exists: " + roleName);
-        }
-
-        Role role = Role.builder()
-                .name(roleName)
-                .build();
-
-        roleRepository.save(role);
-
-        return "Role added successfully: " + roleName;
-    }
-
-    @Override
     public List<UserResponse> getAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
