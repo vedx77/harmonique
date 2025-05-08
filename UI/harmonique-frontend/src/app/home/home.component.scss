@@ -24,8 +24,10 @@
     color: #ffffff;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 8px;
+    align-items: start;
+    /* padding: 8px; */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 8px; /* optional: to smoothen the corners */
 }
 
 .album-img {
@@ -36,15 +38,17 @@
     border-radius: 8px;
 }
 
-.mat-card-title {
-    font-weight: 100;
-    font-size: 8px;
-    color: rgb(212, 23, 23);
+mat-card-title {
+    font-weight: 600;
+    font-size: 16px;
+    color: rgb(184, 136, 136);
+    padding: 0px 0px 0px 0px;
 }
 
-.mat-card-subtitle {
-    font-size: 1rem;
-    color: #c9d1db;
+mat-card-subtitle {
+    font-size: 12px;
+    color: #ffffff;
+    padding: 0px 0px 0px 0px;
 }
 
 .head {

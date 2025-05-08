@@ -43,12 +43,6 @@ export class HomeComponent {
     'assets/Mask Group.png'
   ];
 
-  recommendedSongs: any[] = [
-    { title: 'Believer', artist: 'Imagine Dragons' },
-    { title: 'Monsters Go Bump', artist: 'Erika Recinos' },
-    { title: 'Moment Apart', artist: 'ODESZA' }
-  ];
-
   constructor(
     private router: Router,
     private fb: FormBuilder,
