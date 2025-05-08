@@ -1,0 +1,144 @@
+.home-container {
+    transition: margin-left 0.3s ease;
+
+    &.expanded {
+        margin-left: 220px; // expanded sidebar width
+    }
+}
+
+.container-fluid {
+    margin-top: 60px;
+    background: #3066e2;
+    //height: 200vh;
+}
+
+.song-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+    padding: 16px;
+}
+
+.song-card {
+    background: #18192c99;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+}
+
+.album-img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    /* keeps it perfectly square */
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.mat-card-title {
+    font-weight: 100;
+    font-size: 8px;
+    color: rgb(212, 23, 23);
+}
+
+.mat-card-subtitle {
+    font-size: 1rem;
+    color: #c9d1db;
+}
+
+.head {
+    color: white;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+
+}
+
+// .album-title {
+//     font-weight: 600;
+//     font-size: 1rem;
+//     color: rgb(219, 219, 219);
+// }
+
+// .album-artist {
+//     font-size: 0.75rem;
+//     color: #c9d1db;
+// }
+
+.btn-primary {
+    background: linear-gradient(to right, #af9ce3, #89d4cf);
+    border-color: #ffffff;
+    justify-items: end;
+}
+
+.btn-success {
+    margin-left: 2%;
+    margin-bottom: 15px;
+}
+
+.btn-primary:hover {
+    background-color: #605188;
+}
+
+.crossfade-slider {
+    --progress: 0%;
+    /* Default value for progress */
+
+    /* Apply a gradient where the left part is purple for played, 
+           and the right part is white for the remaining song */
+    background: linear-gradient(to right,
+            #8248ee var(--progress),
+            /* Purple for the played portion */
+            #fff var(--progress));
+    /* White for the remaining portion */
+    height: 8px;
+    border-radius: 10px;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+
+    /* Style for the slider thumb */
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 18px;
+        width: 18px;
+        border-radius: 50%;
+        background: #8248ee;
+        /* Purple thumb */
+        cursor: pointer;
+        border: none;
+    }
+
+    &::-moz-range-thumb {
+        height: 18px;
+        width: 18px;
+        border-radius: 50%;
+        background: #8248ee;
+        /* Purple thumb */
+        cursor: pointer;
+        border: none;
+    }
+}
+
+.slider-container {
+    width: 100%;
+    text-align: center;
+}
+
+input[type="range"] {
+    width: 80%;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.slider-info {
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}

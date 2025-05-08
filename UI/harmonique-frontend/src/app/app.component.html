@@ -1,0 +1,19 @@
+<div [ngClass]="layoutClass">
+  <div class="app-layout">
+    <div *ngIf="showNavAndSidebar">
+      <app-navbar></app-navbar>
+    </div>
+
+    <div class="app-content">
+      <div *ngIf="showNavAndSidebar" class="sidebar-wrapper">
+        <app-sidebar></app-sidebar>
+      </div>
+
+      <div class="main-content">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+
+  <app-footer *ngIf="showFooter"></app-footer>
+</div>

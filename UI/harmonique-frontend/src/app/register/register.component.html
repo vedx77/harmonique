@@ -1,0 +1,108 @@
+<div class="background">
+
+    <div class="music-notes">
+        <span class="music-note" style="left: 10%; animation-delay: 0s;">♬</span>
+        <span class="music-note" style="left: 30%; animation-delay: 1s;">♪</span>
+        <span class="music-note" style="left: 50%; animation-delay: 2s;">♬</span>
+        <span class="music-note" style="left: 70%; animation-delay: 3s;">♩</span>
+        <span class="music-note" style="left: 90%; animation-delay: 4s;">♬</span>
+        <span class="music-note" style="left: 20%; animation-delay: 5s;">♪</span>
+    </div>
+
+    <!-- Existing music notes and container code -->
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="register-card text-center p-4">
+            <h4>Register</h4>
+            <div class="music-bars mt-3">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <!-- Your existing decorative elements -->
+
+            <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" novalidate>
+                <!-- Success message -->
+                <div *ngIf="successMessage" class="alert alert-success mb-3">
+                    {{ successMessage }}
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="errorMessage" class="alert alert-danger mb-3">
+                    {{ errorMessage }}
+                </div>
+
+                <!-- Full Name -->
+                <div class="position-relative">
+                    <input type="text" class="form-control ps-5 mb-2" placeholder="Full Name"
+                        formControlName="fullName">
+                    <i class="fa-regular fa-user position-absolute top-50 start-0 translate-middle-y"
+                        style="margin-left: 15px; color: white;"></i>
+                </div>
+
+                <div *ngIf="f['fullName'].touched && f['fullName'].errors" class="text-danger">
+                    <div *ngIf="f['fullName'].errors['required']">Full Name is required</div>
+                    <div *ngIf="f['fullName'].errors['minlength']">Minimum 3 characters required</div>
+                </div>
+
+                <!-- Email -->
+                <div class="position-relative">
+                    <input type="email" class="form-control ps-5 mb-2" placeholder="Email" formControlName="email">
+                    <i class="fa-regular fa-envelope position-absolute top-50 start-0 translate-middle-y"
+                        style="margin-left: 15px; color: white;"></i>
+                </div>
+                
+                <div *ngIf="f['email'].touched && f['email'].errors" class="text-danger">
+                    <div *ngIf="f['email'].errors['required']">Email is required</div>
+                    <div *ngIf="f['email'].errors['email']">Please enter a valid email</div>
+                </div>
+
+                <!-- Create Password -->
+                <div class="position-relative">
+                    <input [type]="showPassword ? 'text' : 'password'" class="form-control ps-5 pe-5 mb-2"
+                        placeholder="Create Password" formControlName="password" />
+                    <i class="position-absolute top-50 start-0 translate-middle-y" [ngClass]="lockIconClass"
+                        style="margin-left: 15px; color: white;"></i>
+
+                    <!-- Eye Icon -->
+                    <i class="fa" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+                        (click)="showPassword = !showPassword"
+                        style="position: absolute; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; color: white;">
+                    </i>
+                </div>
+
+                <div *ngIf="f['password'].touched && f['password'].errors" class="text-danger">
+                    <div *ngIf="f['password'].errors['required']">Password is required</div>
+                    <div *ngIf="f['password'].errors['minlength']">Minimum 6 characters required</div>
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="position-relative">
+                    <input [type]="showConfirmPassword ? 'text' : 'password'" class="form-control ps-5 pe-5 mb-2"
+                        placeholder="Confirm Password" formControlName="confirmPassword" />
+                    <i class="position-absolute top-50 start-0 translate-middle-y " [ngClass]="lockIconClass"
+                        style="margin-left: 15px; color: white;"></i>
+
+                    <!-- Eye Icon -->
+                    <i class="fa" [ngClass]="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'"
+                        (click)="showConfirmPassword = !showConfirmPassword"
+                        style="position: absolute; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; color: white;">
+                    </i>
+                </div>
+
+                <div *ngIf="f['confirmPassword'].touched && f['confirmPassword'].errors" class="text-danger">
+                    <div *ngIf="f['confirmPassword'].errors['required']">Please confirm your password</div>
+                    <div *ngIf="registrationForm.errors?.['mismatch'] && f['confirmPassword'].touched">
+                        Passwords don't match
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 gradient-btn"
+                    [disabled]="isLoading || registrationForm.invalid">
+                    <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status"
+                        aria-hidden="true"></span>
+                    {{ isLoading ? 'Registering...' : 'Register' }}
+                </button>
+            </form>
+
+            <p class="text-white mt-3">Already have an account? <a routerLink="/login" class="text-purple">Login</a></p>
+        </div>
+    </div>
+</div>

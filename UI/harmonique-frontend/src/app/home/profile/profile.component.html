@@ -1,0 +1,229 @@
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light shadow-sm sticky-top">
+    <div class="container">
+        <a class="navbar-brand">PROFILE</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/home"><i class="fas fa-home me-1"></i> Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="'/liked-songs"><i class="fas fa-music me-1"></i> Library</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/settings"><i class="fas fa-cog me-1"></i> Settings</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Profile Header -->
+<header class="profile-header text-center">
+    <div class="container profile-header-content">
+        <h1 class="display-5">My Profile</h1>
+        <p class="lead">Manage your account and view your listening stats</p>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="container">
+    <!-- Profile Info -->
+    <div class="row">
+        <div class="col-md-2 text-center">
+            <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Profile" class="profile-avatar">
+        </div>
+        <div class="col-md-6">
+            <h2>Sarah Johnson</h2>
+            <p class="text-muted">Premium Member since June 2021</p>
+            <p><i class="fas fa-map-marker-alt me-1" style="color: var(--accent-color);"></i> New York, USA • <i
+                    class="fas fa-headphones me-1" style="color: var(--accent-color);"></i> 4,782 minutes this month</p>
+        </div>
+        <div class="col-md-4 text-end">
+           <a class="nav-link" href="/edit-profile"><button class="btn btn-edit btn-sm mt-2"><i class="fas fa-pencil-alt me-1"></i> Edit Profile</button></a> 
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="profile-stats">
+        <div class="row">
+            <div class="col-4 stat-item">
+                <div class="stat-number">1,247</div>
+                <div class="stat-label">Songs</div>
+            </div>
+            <div class="col-4 stat-item">
+                <div class="stat-number">84</div>
+                <div class="stat-label">Artists</div>
+            </div>
+            <div class="col-4 stat-item">
+                <div class="stat-number">23</div>
+                <div class="stat-label">Playlists</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Left Column -->
+        <div class="col-md-8">
+            <!-- Recently Played -->
+            <section class="profile-section">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2><i class="fas fa-history me-2" style="color: var(--accent-color);"></i>Recently Played</h2>
+                    <a href="#" class="text-decoration-none" style="color: var(--primary-color);">View All</a>
+                </div>
+
+                <div class="list-group">
+                    <div class="recent-track">
+                        <div class="track-number">1</div>
+                        <img src="https://i.scdn.co/image/ab67616d00004851c08d11b2f6f8b25908c276d6" width="40"
+                            height="40" class="rounded me-3">
+                        <div class="track-info">
+                            <div class="track-title">Blinding Lights</div>
+                            <div class="track-artist">The Weeknd</div>
+                        </div>
+                        <div class="track-duration">3:20</div>
+                    </div>
+
+                    <div class="recent-track">
+                        <div class="track-number">2</div>
+                        <img src="https://i.scdn.co/image/ab67616d00004851b1d7eafa9c6b61d4938e9d10" width="40"
+                            height="40" class="rounded me-3">
+                        <div class="track-info">
+                            <div class="track-title">Save Your Tears</div>
+                            <div class="track-artist">The Weeknd</div>
+                        </div>
+                        <div class="track-duration">3:35</div>
+                    </div>
+
+                    <div class="recent-track">
+                        <div class="track-number">3</div>
+                        <img src="https://i.scdn.co/image/ab67616d00004851d6c8e7884621b4a118f8c7f2" width="40"
+                            height="40" class="rounded me-3">
+                        <div class="track-info">
+                            <div class="track-title">Levitating</div>
+                            <div class="track-artist">Dua Lipa</div>
+                        </div>
+                        <div class="track-duration">3:23</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Top Artists -->
+            <section class="profile-section">
+                <h2><i class="fas fa-star me-2" style="color: var(--accent-color);"></i>Top Artists</h2>
+                <div class="row">
+                    <div class="col-md-4 text-center mb-3">
+                        <img src="https://i.scdn.co/image/ab6761610000e5eb99e4fca7c0b7cb166d915789"
+                            class="rounded-circle mb-2" width="80" height="80">
+                        <h5 class="mb-0">The Weeknd</h5>
+                        <small class="text-muted">1,452 plays</small>
+                    </div>
+                    <div class="col-md-4 text-center mb-3">
+                        <img src="https://i.scdn.co/image/ab6761610000e5eb437b9e2a82505b3d93ff1022"
+                            class="rounded-circle mb-2" width="80" height="80">
+                        <h5 class="mb-0">Dua Lipa</h5>
+                        <small class="text-muted">987 plays</small>
+                    </div>
+                    <div class="col-md-4 text-center mb-3">
+                        <img src="https://i.scdn.co/image/ab6761610000e5eb214f3cf1cbe7139c1e26ffbb"
+                            class="rounded-circle mb-2" width="80" height="80">
+                        <h5 class="mb-0">Billie Eilish</h5>
+                        <small class="text-muted">756 plays</small>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-md-4">
+            <!-- Favorite Playlists -->
+            <section class="profile-section">
+                <h2><i class="fas fa-heart me-2" style="color: var(--accent-color);"></i>Favorite Playlists</h2>
+
+                <div class="playlist-card">
+                    <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                        class="card-img-top playlist-img" alt="Workout Mix">
+                    <div class="card-body">
+                        <h5 class="playlist-title">Workout Mix</h5>
+                        <p class="playlist-count">42 songs • 2h 15m</p>
+                        <a href="#" class="btn btn-sm btn-primary">Play Now</a>
+                    </div>
+                </div>
+
+                <div class="playlist-card">
+                    <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                        class="card-img-top playlist-img" alt="Chill Vibes">
+                    <div class="card-body">
+                        <h5 class="playlist-title">Chill Vibes</h5>
+                        <p class="playlist-count">35 songs • 1h 52m</p>
+                        <a href="#" class="btn btn-sm btn-primary">Play Now</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Account Settings -->
+            <section class="profile-section">
+                <h2><i class="fas fa-user-cog me-2" style="color: var(--accent-color);"></i>Account Settings</h2>
+                <div class="list-group">
+                    <a href="/settings"
+                        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-user me-2"></i> Profile Information</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                    <a href="/settings"
+                        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-lock me-2"></i> Privacy Settings</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                    <!-- <a href="#"
+                        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-palette me-2"></i> Theme & Display</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </a> -->
+                    <a href="/login"
+                        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-sign-out-alt me-2"></i> Sign Out</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5>HARMONIQUE</h5>
+                <p>Your local music player for a personalized listening experience.</p>
+            </div>
+            <div class="col-md-4">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="/home" class="text-white">Home</a></li>
+                    <li><a href="/liked-songs" class="text-white">Library</a></li>
+                    <li><a href="/profile" class="text-white">Profile</a></li>
+                    <li><a href="/settings" class="text-white">Settings</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Connect With Us</h5>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+        </div>
+        <hr class="mt-4 bg-light">
+        <div class="text-center">
+            <p class="mb-0">&copy; 2025 Harmonique Music Player. All rights reserved.</p>
+        </div>
+    </div>
+</footer>

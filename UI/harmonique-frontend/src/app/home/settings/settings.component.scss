@@ -1,0 +1,23 @@
+.settings-container {
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+    margin-top: 5.5%;
+
+}
+
+.form-check-input:checked {
+    background-color: #6e45e2;
+    border-color: #6e45e2;
+}
+
+.form-select:focus {
+    border-color: #89d4cf;
+    box-shadow: 0 0 0 0.25rem rgba(137, 212, 207, 0.25);
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
