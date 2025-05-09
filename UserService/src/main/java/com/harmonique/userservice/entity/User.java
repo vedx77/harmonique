@@ -16,10 +16,12 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(name = "profile_picture")
+    private String profilePictureUrl;
 
     @NotBlank(message = "Name is required")
     private String name;
@@ -40,7 +42,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
+   
     @Builder.Default
     private Set<Role> roles = new HashSet<>();
-
 }

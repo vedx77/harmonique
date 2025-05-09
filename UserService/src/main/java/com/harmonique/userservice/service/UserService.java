@@ -1,6 +1,9 @@
 package com.harmonique.userservice.service;
 
+import java.io.IOException;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.harmonique.userservice.payload.JwtAuthRequest;
 import com.harmonique.userservice.payload.JwtAuthResponse;
@@ -26,4 +29,7 @@ public interface UserService {
     
     // 5. Get all User Details
     List<UserResponse> getAllUsers();
+
+    // 6. Get Profile pic of user
+    UserResponse updateProfilePicture(String username, MultipartFile file) throws IOException;
 }

@@ -17,8 +17,17 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.beans.factory.annotation.Value;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +38,12 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
     private final JwtTokenHelper jwtTokenHelper;
+    
+    @Value("${user.upload.dir}")
+    private String uploadDir;
+    
+    @Value("${user.access.url}")
+    private String uploadAccessUrl;
 
     @Override
     public UserResponse registerUser(UserRequest userRequest) {
@@ -102,6 +117,28 @@ public class UserServiceImpl implements UserService {
 
         return mapToUserResponse(user);
     }
+    
+    @Override
+    public UserResponse updateProfilePicture(String username, MultipartFile file) throws IOException {
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", username));
+
+        String uploadDir = new File(this.uploadDir).getAbsolutePath();
+        File directory = new File(uploadDir);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        String fileName = username + "_" + System.currentTimeMillis() + "_" + file.getOriginalFilename();
+        Path filePath = Paths.get(uploadDir, fileName);
+        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+        user.setProfilePictureUrl(uploadAccessUrl + fileName);
+        userRepository.save(user);
+
+        return mapToUserResponse(user);  // use your helper method to map entity to response
+    }
+
 
     @Override
     public List<UserResponse> getAllUsers() {
@@ -111,7 +148,7 @@ public class UserServiceImpl implements UserService {
                 .toList();
     }
 
-    // ✅ Reusable helper method
+    // ✅ Reusable helper methods
     private UserResponse mapToUserResponse(User user) {
         UserResponse response = modelMapper.map(user, UserResponse.class);
         response.setRoles(user.getRoles()); // ensure roles are set

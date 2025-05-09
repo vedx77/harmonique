@@ -16,9 +16,15 @@ springdoc:
     path: /swagger-ui.html
     operationsSorter: method
 
+user:
+  upload:
+    dir: uploads/profilepic
+  access:
+    url: http://localhost:8081/profilepic/
+
 jwt:
   secret: c1a594503aaa9d92c02494a17ae59d358fb6ae75a71c8a8607295fdfd3d4c38b
-  token-validity: 600000
+  token-validity: 43200000
 
 logging:
   level:

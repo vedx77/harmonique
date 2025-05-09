@@ -13,6 +13,8 @@ import java.util.Set;
 public class UserResponse {
 
     private Long id;
+    
+    private String profilePictureUrl;
 
     private String name;
 
