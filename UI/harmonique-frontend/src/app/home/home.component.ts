@@ -8,14 +8,17 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
 import { AuthService } from './services/auth.service';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { SidebarService } from '../home/services/sidebar.service';
 import { Subscription } from 'rxjs';
+import { LikeService } from './services/like.service';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   templateUrl: './home.component.html',
-  imports: [RouterModule, CommonModule, MatCardModule],
+  imports: [RouterModule, CommonModule, MatCardModule, MatIconModule],
   styleUrls: ['./home.component.scss'],
 })
 
@@ -31,26 +34,19 @@ export class HomeComponent {
   progressValue: number = 5;
 
   importedSongs: any[] = [];
-  backendSongs: any[] = []; // ✅ Added this to store fetched songs from backend
+  backendSongs: any[] = []; // Added this to store fetched songs from backend
   currentSongIndex: number = -1;
-
-  availableImages = [
-    'assets/51c547366f2853da1052e531f4bfe4d5.jpg',
-    'assets/770a9cca1e543e6edeae6747db9522d2.jpg',
-    'assets/956b070b9df64cdd16d966caa1e016bf.jpg',
-    'assets/aa53683a96a23571867f1eafa0d845a1.jpg',
-    'assets/Listening To Music GIF - Head Phones Music Recording Studio - Discover & Share GIFs.gif',
-    'assets/Mask Group.png'
-  ];
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private changeDetectorRef: ChangeDetectorRef,
     public audioService: AudioPlayerService,
-    private http: HttpClient, // ✅ Added HttpClient
+    private http: HttpClient, // Added HttpClient
     private authService: AuthService,
-    private sidebarService: SidebarService
+    private sidebarService: SidebarService,
+    private likeService: LikeService,
+    private userService: UserService
   ) {
     this.form = this.fb.group({
       step1: ['', Validators.required],
@@ -58,6 +54,14 @@ export class HomeComponent {
       step3: ['', Validators.required]
     });
   }
+
+  isSidebarExpanded = false;
+  private sidebarSubscription!: Subscription;
+
+  userId: number = 0;
+  likedSongIds: number[] = [];
+  currentSongTitle: string = '';
+  currentSongImage: string = '';
 
   ngOnInit(): void {
     // Subscribe to the songs observable to keep the local importedSongs array in sync
@@ -72,12 +76,32 @@ export class HomeComponent {
       this.changeDetectorRef.detectChanges();
     });
 
-    // Fetch songs from backend
-    this.fetchSongsFromBackend();
+    this.audioService.currentSongChanged.subscribe(song => {
+      this.currentSongTitle = song?.name || '';
+      this.currentSongImage = song?.image || '';
+      this.changeDetectorRef.detectChanges(); // ensure UI reflects changes
+    });
 
     this.sidebarSubscription = this.sidebarService.expanded$.subscribe((expanded) => {
       this.isSidebarExpanded = expanded;
       this.changeDetectorRef.detectChanges();
+    });
+
+    this.fetchSongsFromBackend();
+
+    // Fetch user ID and liked songs
+    this.userService.getUserProfile().subscribe({
+      next: (user) => {
+        this.userId = user.id;
+        this.likeService.getLikedSongsByUser(this.userId).subscribe({
+          next: (likedIds) => {
+            this.likedSongIds = likedIds;
+            this.fetchSongsFromBackend(); // Load songs after knowing liked ones
+          },
+          error: (err) => console.error('Error fetching liked songs:', err)
+        });
+      },
+      error: (err) => console.error('Error fetching user profile:', err)
     });
   }
 
@@ -92,11 +116,11 @@ export class HomeComponent {
 
     const token = this.authService.getToken(); // <-- Use the stored token
 
-    this.http.post(`${environment.songsApi}/upload/auto`, formData, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).subscribe({
+this.http.post(`${environment.songsApi}/upload/auto`, formData, {
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
+}).subscribe({
       next: (response: any) => {
         console.log('Upload successful:', response);
         this.fetchSongsFromBackend(); // Refresh the list after upload
@@ -105,120 +129,145 @@ export class HomeComponent {
         console.error('Upload failed:', err);
       }
     });
-  }  
+  }
 
+  downloadSong(songId: string): void {
+    const downloadUrl = `${environment.songsApi}/download/${songId}`;
+    window.open(downloadUrl, '_blank');
+  }
+
+
+  // fetchSongsFromBackend(): void {
+  //   this.http.get<any[]>(environment.songsApi)
+  //     .subscribe(
+  //       (data) => {
+  //         this.backendSongs = data.map(song => ({
+  //           ...song,
+  //           image: song.imageUrl  // ✅ Assign the backend image URL to the image field
+  //         }));
+  //       },
+  //       (error) => {
+  //         console.error('Error fetching songs:', error);
+  //       }
+  //     );
+  // }
+
+  //O2
+  // fetchSongsFromBackend(): void {
+  //   this.http.get<any[]>(environment.songsApi).subscribe(
+  //     (data) => {
+  //       this.backendSongs = data.map(song => ({
+  //         ...song,
+  //         image: song.imageUrl,
+  //         isLiked: this.likedSongIds.includes(song.id)
+  //       }));
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching songs:', error);
+  //     }
+  //   );
+  // }
+
+  // O3
+  // fetchSongsFromBackend(): void {
+  //   this.http.get<any[]>(environment.songsApi).subscribe(
+  //     (data) => {
+  //       this.backendSongs = data.map(song => ({
+  //         ...song,
+  //         image: song.imageUrl,
+  //         isLiked: this.likedSongIds.includes(song.id)
+  //       }));
+
+  //       // ✅ Push all songs into the global audio service queue
+  //       this.audioService.setSongs(this.backendSongs);
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching songs:', error);
+  //     }
+  //   );
+  // }
+
+
+  // O4
   fetchSongsFromBackend(): void {
-    this.http.get<any[]>(environment.songsApi)
-      .subscribe(
-        (data) => {
-          this.backendSongs = data.map(song => ({
-            ...song,
-            image: song.imageUrl  // ✅ Assign the backend image URL to the image field
-          }));
+    this.http.get<any[]>(environment.songsApi).subscribe(
+      (data) => {
+        const formattedSongs = data.map(song => {
+          const audio = new Audio(song.url); // Assumes `url` field holds audio link
+          const songObj = {
+            id: song.id,
+            name: song.title,
+            src: song.url,
+            audio: audio,
+            isPlaying: false,
+            currentTime: 0,
+            duration: 0,
+            artist: song.artist,
+            image: song.imageUrl,
+            isLiked: this.likedSongIds.includes(song.id)
+          };
+
+          audio.addEventListener('loadedmetadata', () => {
+            songObj.duration = audio.duration;
+          });
+
+          audio.addEventListener('timeupdate', () => {
+            songObj.currentTime = audio.currentTime;
+          });
+
+          return songObj;
+        });
+
+        this.backendSongs = formattedSongs;
+        this.audioService.setSongs(formattedSongs);
+      },
+      (error) => {
+        console.error('Error fetching songs:', error);
+      }
+    );
+  }
+
+
+  playBackendSong(index: number): void {
+    const songToPlay = this.backendSongs[index];
+    this.audioService.playSong(songToPlay);
+  }
+
+  toggleLike(songId: number): void {
+    const index = this.likedSongIds.indexOf(songId);
+
+    if (index > -1) {
+      // Dislike
+      this.likeService.unlikeSong(this.userId, songId).subscribe({
+        next: () => {
+          this.likedSongIds.splice(index, 1);
+          this.updateSongLikeStatus(songId, false);
         },
-        (error) => {
-          console.error('Error fetching songs:', error);
-        }
-      );
-  }
-
-  getRandomImage(): string {
-    const index = Math.floor(Math.random() * this.availableImages.length);
-    return this.availableImages[index];
-  }
-
-  loadFiles(event: any): void {
-    const files: FileList = event.target.files;
-
-    // Get current songs from service
-    const newSongs = [...this.audioService.songs];
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-
-      // Check if the file is an audio file
-      if (!file.type.startsWith('audio/')) {
-        console.warn(`File ${file.name} is not an audio file. Skipping.`);
-        continue;
-      }
-
-      const url = URL.createObjectURL(file);
-      const audio = new Audio(url);
-
-      // Check if the song is already in the list by its src
-      if (newSongs.some(song => song.src === url)) {
-        console.warn(`Song ${file.name} already imported. Skipping.`);
-        continue; // Skip if the song is already in the list
-      }
-
-      const songObj = {
-        name: file.name.replace(/\.[^/.]+$/, ""), // Remove file extension
-        src: url,
-        audio: audio,
-        isPlaying: false,
-        currentTime: 0,
-        duration: 0,
-        artist: 'Unknown Artist',
-        image: this.getRandomImage()
-      };
-
-      audio.addEventListener('loadedmetadata', () => {
-        songObj.duration = audio.duration;
-        this.changeDetectorRef.detectChanges();
+        error: (err) => console.error('Error unliking song:', err)
       });
-
-      audio.addEventListener('timeupdate', () => {
-        songObj.currentTime = audio.currentTime;
-        this.changeDetectorRef.detectChanges();
+    } else {
+      // Like
+      this.likeService.likeSong(this.userId, songId).subscribe({
+        next: () => {
+          this.likedSongIds.push(songId);
+          this.updateSongLikeStatus(songId, true);
+        },
+        error: (err) => console.error('Error liking song:', err)
       });
-
-      // Add error handler for audio loading failures
-      audio.addEventListener('error', () => {
-        console.error(`Error loading audio file: ${file.name}`);
-        // Find and remove this song if it was already added
-        const index = newSongs.indexOf(songObj);
-        if (index !== -1) {
-          newSongs.splice(index, 1);
-          this.audioService.setSongs(newSongs);
-        }
-      });
-
-      // Add the new song to the list
-      newSongs.push(songObj);
     }
+  }
 
-    // Update service with all songs (existing + new)
-    this.audioService.setSongs(newSongs);
-
-    // Reset file input to allow selecting the same file again if needed
-    event.target.value = '';
+  updateSongLikeStatus(songId: number, isLiked: boolean): void {
+    const song = this.backendSongs.find(s => s.id === songId);
+    if (song) {
+      song.isLiked = isLiked;
+      this.changeDetectorRef.detectChanges();
+    }
   }
 
   togglePlay(index: number): void {
     // Use the audio service to control playback
     this.audioService.togglePlay(index);
-  }
-
-  get currentTime(): string {
-    if (this.currentSongIndex >= 0 && this.currentSongIndex < this.importedSongs.length) {
-      const currentSong = this.importedSongs[this.currentSongIndex];
-      return this.formatTime(currentSong.currentTime);
-    }
-    return '0:00';
-  }
-
-  get duration(): string {
-    if (this.currentSongIndex >= 0 && this.currentSongIndex < this.importedSongs.length) {
-      const currentSong = this.importedSongs[this.currentSongIndex];
-      return this.formatTime(currentSong.duration);
-    }
-    return '0:00';
-  }
-
-  private formatTime(sec: number): string {
-    const minutes = Math.floor(sec / 60);
-    const seconds = Math.floor(sec % 60).toString().padStart(2, '0');
-    return `${minutes}:${seconds}`;
   }
 
   onCrossfadeChange(event: any): void {
@@ -246,9 +295,6 @@ export class HomeComponent {
     const songWidth = songScroll.children[0].clientWidth; // Get the width of a single song container
     songScroll.scrollLeft = songWidth * this.scrollIndex; // Scroll horizontally by the width of a song
   }
-
-  isSidebarExpanded = false;
-  private sidebarSubscription!: Subscription;
 
   ngOnDestroy(): void {
     if (this.sidebarSubscription) {

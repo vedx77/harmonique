@@ -1,47 +1,38 @@
-<div class="home-container" [class.expanded]="isSidebarExpanded">  
-<div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-3 head-container">
-        <h5 class="head mb-0">Uploaded Songs</h5>
-        <div>
-            <button class="btn btn-primary" (click)="uploadInput.click()">Upload Songs</button>
-            <input type="file" #uploadInput accept="audio/*" multiple (change)="uploadSongs($event)" hidden />
-        </div>
-    </div>    
-
-    <div class="song-grid">
-        <mat-card class="song-card" *ngFor="let song of backendSongs">
-          <img mat-card-image [src]="song.image || '../assets/Mask Group.png'" alt="cover" class="album-img">
-          <mat-card-content>
-            <mat-card-title>{{ song.title }}</mat-card-title>
-            <mat-card-subtitle>{{ song.artist }}</mat-card-subtitle>
-          </mat-card-content>
-        </mat-card>
-      </div>
-</div>
-
-<div class="scroll-container mb-5" *ngIf="importedSongs.length">
-    <div class="row flex-nowrap song-scroll" #songScroll>
-        <div class="col-2" *ngFor="let song of importedSongs; let i = index">
-            <img [src]="song.image" alt="cover" class="album-img mb-2" />
-            <div class="album-title">{{ song.name }}</div>
-
-            <!-- Hidden Audio -->
-            <audio #audioRef [src]="song.src" (timeupdate)="updateTime($event, i)"
-                (loadedmetadata)="Duration($event, i)" style="display: none"></audio>
-
-            <!-- Time Display -->
-            <div class="album-artist">
-                {{ song.currentTime | number:'1.0-0' }} / {{ song.duration | number:'1.0-0' }} sec
+<div class="home-container" [class.expanded]="isSidebarExpanded">
+    <div class="container-fluid">
+        <!-- <div class="d-flex justify-content-between align-items-center mb-3 head-container"> -->
+        <div class="head-container">
+            <h5 class="head mb-0">Uploaded Songs</h5>
+            <div>
+                <button class="btn btn-primary" (click)="uploadInput.click()">Upload Songs</button>
+                <input type="file" #uploadInput accept="audio/*" multiple (change)="uploadSongs($event)" hidden />
             </div>
         </div>
-    </div>
-</div>
 
-<!-- Horizontal Scroll Slider -->
-<div class="slider-container mt-3" *ngIf="importedSongs.length > 1">
-    <input type="range" [min]="0" [max]="importedSongs.length - 1" step="1" (input)="scrollSongs()" />
-    <div class="slider-info">
-        <span>{{ importedSongs[scrollIndex]?.name }}</span>
+        <div class="song-grid">
+            <!-- <mat-card class="song-card" *ngFor="let song of backendSongs; let i = index" (click)="playBackendSong(i)">
+                <img mat-card-image [src]="song.image || '../assets/Mask Group.png'" alt="cover" class="album-img">
+                <mat-card-content>
+                    <mat-card-title>{{ song.title }}</mat-card-title>
+                    <mat-card-subtitle>{{ song.artist }}</mat-card-subtitle>
+                </mat-card-content>
+            </mat-card> -->
+            <mat-card class="song-card" *ngFor="let song of backendSongs; let i = index" (click)="playBackendSong(i)">
+    <div class="icon-overlay" (click)="$event.stopPropagation()">
+        <button mat-icon-button (click)="downloadSong(song.id)">
+            <mat-icon>file_download</mat-icon>
+        </button>
+        <button mat-icon-button (click)="toggleLike(song.id)">
+            <mat-icon>{{ likedSongIds.includes(song.id) ? 'favorite' : 'favorite_border' }}</mat-icon>
+        </button>
     </div>
-</div>
+    <img mat-card-image [src]="song.image || '../assets/Mask Group.png'" alt="cover" class="album-img">
+    <mat-card-content>
+        <mat-card-title>{{ song.title }}</mat-card-title>
+        <mat-card-subtitle>{{ song.artist }}</mat-card-subtitle>
+    </mat-card-content>
+</mat-card>
+
+        </div>
+    </div>
 </div>

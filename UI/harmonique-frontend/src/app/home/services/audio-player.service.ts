@@ -5,10 +5,13 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AudioPlayerService {
   private _songs = new BehaviorSubject<any[]>([]);
   private _currentSongIndex = new BehaviorSubject<number>(-1);
   private _isPlaying = new BehaviorSubject<boolean>(false);
+  currentSongChanged = new BehaviorSubject<any | null>(null);
+
 
   // Public observables
   songs$ = this._songs.asObservable();
@@ -37,9 +40,15 @@ export class AudioPlayerService {
     return null;
   }
 
+  // audio-player.service.ts
   setSongs(songs: any[]): void {
     this._songs.next(songs);
+    this._currentSongIndex.next(0); // Start from the first song
   }
+
+  // setSongs(songs: any[]): void {
+  //   this._songs.next(songs);
+  // }
 
   setCurrentSongIndex(index: number): void {
     this._currentSongIndex.next(index);
@@ -47,6 +56,42 @@ export class AudioPlayerService {
       const song = this.songs[index];
       this._isPlaying.next(!song.audio.paused);
     }
+  }
+
+  playSong(song: any): void {
+    // Pause all current songs
+    this.songs.forEach(s => s.audio?.pause());
+
+    // Check if the song already exists in the playlist
+    let index = this.songs.findIndex(s => s.src === song.url);
+
+    // If not found, create a new song object and add it
+    if (index === -1) {
+      const songObj = {
+        name: song.title,
+        src: song.url,
+        audio: new Audio(song.url),
+        isPlaying: false,
+        currentTime: 0,
+        duration: 0,
+        artist: song.artist,
+        image: song.image || ''
+      };
+
+      songObj.audio.addEventListener('loadedmetadata', () => {
+        songObj.duration = songObj.audio.duration;
+      });
+
+      songObj.audio.addEventListener('timeupdate', () => {
+        songObj.currentTime = songObj.audio.currentTime;
+      });
+
+      const updatedSongs = [...this.songs, songObj];
+      this.setSongs(updatedSongs);
+      index = updatedSongs.length - 1;
+    }
+
+    this.changeSong(index); // central play method
   }
 
   togglePlay(index: number | null = null): void {
@@ -65,7 +110,7 @@ export class AudioPlayerService {
     if (currentIndex === -1 || !this.songs[currentIndex]) return;
 
     const currentSong = this.songs[currentIndex];
-    
+
     if (currentSong.audio.paused) {
       // Pause all other songs
       this.songs.forEach((song, i) => {
@@ -98,12 +143,15 @@ export class AudioPlayerService {
     if (this.currentSongIndex >= 0 && this.currentSongIndex < this.songs.length) {
       this.songs[this.currentSongIndex].audio.pause();
     }
-    
+
     // Play new song
     this.setCurrentSongIndex(newIndex);
     this.songs[newIndex].audio.currentTime = 0;
     this.songs[newIndex].audio.play();
     this._isPlaying.next(true);
+
+    // Emit current song
+    this.currentSongChanged.next(this.songs[newIndex]);
   }
 
   seekTo(time: number): void {
