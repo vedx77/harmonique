@@ -28,6 +28,11 @@ export const routes: Routes = [
                     import('./home/home.component').then((c) => c.HomeComponent),
             },
             {
+                path: 'search',
+                loadComponent: () =>
+                    import('./home/search/search.component').then(m => m.SearchComponent)
+            },
+            {
                 path: 'footer',
                 loadComponent: () =>
                     import('./shared/footer/footer.component').then((c) => c.FooterComponent),

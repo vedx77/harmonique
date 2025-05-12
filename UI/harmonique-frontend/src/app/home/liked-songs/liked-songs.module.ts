@@ -1,17 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { LikedSongsRoutingModule } from './liked-songs-routing.module';
 import { RouterModule } from '@angular/router';
-import { routes } from '../../app.routes';
-
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { LikedSongsComponent } from './liked-songs.component'; // ✅ Import your component
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
     LikedSongsRoutingModule,
-    RouterModule.forChild(routes)
+    RouterModule,
+    MatIconModule,
+    MatCardModule,
+    LikedSongsComponent
   ]
 })
 export class LikedSongsModule { }

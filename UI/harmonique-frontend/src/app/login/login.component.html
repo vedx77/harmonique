@@ -43,18 +43,13 @@
         Password must be at least 6 characters.
       </small>
 
-
-      <small class="text-danger" *ngIf="password.invalid && (password.dirty || password.touched)">
-        Password must be at least 6 characters.
-      </small>
-
       <!-- Error message display -->
       <div *ngIf="errorMessage" class="alert alert-danger mb-3">
         {{ errorMessage }}
       </div>
 
       <div class="d-grid">
-        <button type="submit" class="btn btn-white gradien-btn text-white text-center w-100"
+        <button type="submit" class="btn btn-white gradien-btn text-center w-100"
           [disabled]="loginForm.invalid || isLoading">
           <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
           {{ isLoading ? 'Logging in...' : 'Start Jamming' }}

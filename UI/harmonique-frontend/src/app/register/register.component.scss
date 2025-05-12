@@ -1,5 +1,5 @@
 .background {
-    background: linear-gradient(135deg, #6e45e2 0%, #89d4cf 100%);
+    background: linear-gradient(135deg, #7f00ff, #3a00f4, #00c9a7); 
     min-height: 100vh;
     position: relative;
     overflow: hidden;
@@ -137,7 +137,7 @@
 }
 
 .register-card {
-    background: rgba(255, 255, 255, 0.1);
+    background: #121826;
     backdrop-filter: blur(10px);
     border-radius: 1.25rem;
     width: 100%;
@@ -203,7 +203,7 @@
         }
 
         .gradient-btn {
-            background: linear-gradient(to right, #6e45e2, #89d4cf);
+            background: linear-gradient(135deg, #00c9a7, #3a00f4, #7f00ff); 
             border: none;
             padding: 0.75rem;
             font-weight: 600;
@@ -220,7 +220,8 @@
             }
 
             &:disabled {
-                background: #caabfe;
+                background: #ceb6f7;
+                color: #121826;
                 transform: none;
                 box-shadow: none;
                 cursor: not-allowed;

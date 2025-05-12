@@ -69,7 +69,7 @@
         top: 50%;
         left: 12px;
         transform: translateY(-50%);
-        color: #aaa;
+        color: white;
         font-size: 1rem;
     }
 
@@ -79,6 +79,10 @@
         border: 1px solid #ccc;
         height: 38px;
         font-size: 0.95rem;
+    }
+
+    .rounded-pill {
+        background: rgb(208, 225, 255);
     }
 }
 
@@ -95,7 +99,7 @@
 .navbar-profile-img {
     width: 30px;   // or any desired size like 32px, 50px
     height: 30px;
-    margin-right: 5px;
+    margin-right: 10px;
     border-radius: 50%; // makes it circular
     object-fit: cover;  // ensures the image stays within bounds
   }  

@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../../home/services/user.service';
 import { environment } from '../../../environments/environment.development';
+import { SearchService } from '../../home/services/search.service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,6 +16,7 @@ import { environment } from '../../../environments/environment.development';
 
 export class NavbarComponent {
   user: any = {};
+  searchResults: any[] = [];
 
   // @ViewChild('menu') menu!: Menu;
   menuItems = [
@@ -26,7 +28,8 @@ export class NavbarComponent {
   constructor(
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private userService: UserService
+    private userService: UserService,
+    private searchService: SearchService
   ) { }
 
   // Search-related property
@@ -41,10 +44,22 @@ export class NavbarComponent {
     console.log('Toggle user menu clicked');
   }
 
-  // Optional: method to handle search action (e.g., when user presses Enter)
+  // Called when user presses Enter or triggers search
   handleSearch(): void {
-    console.log('Search input:', this.searchQuery);
-    // Add search logic here (e.g., API call, navigation, filtering)
+    if (!this.searchQuery.trim()) return;
+
+    this.searchService.searchSongs(this.searchQuery).subscribe({
+      next: (results) => {
+        this.searchResults = results;
+        console.log('Search results:', results);
+
+        // OPTIONAL: Navigate to a dedicated results page with query param
+        this.router.navigate(['/search'], { queryParams: { q: this.searchQuery } });
+      },
+      error: (err) => {
+        console.error('Search error:', err);
+      }
+    });
   }
 
   logOut() {

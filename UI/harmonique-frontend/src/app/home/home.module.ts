@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './home.component';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   imports: [
@@ -14,8 +15,9 @@ import { MatCardModule } from '@angular/material/card';
     HttpClientModule,
     RouterModule,
     MatCardModule,
-    HomeComponent,        // ✅ import standalone component
-    SidebarComponent      // ✅ import standalone component
+    HomeComponent,
+    SidebarComponent,
+    MatIconModule
   ]
 })
 export class HomeModule { }
