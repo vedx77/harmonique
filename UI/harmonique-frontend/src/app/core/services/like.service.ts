@@ -31,8 +31,4 @@ export class LikeService {
   getLikeCountForSong(songId: number): Observable<number> {
     return this.http.get<number>(`${this.baseUrl}/song/${songId}`);
   }
-
-  getLikedSongs(userId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.likeApi}/user/${userId}`);
-  }
 }

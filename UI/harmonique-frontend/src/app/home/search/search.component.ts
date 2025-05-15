@@ -3,10 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { SearchService } from '../services/search.service';
-import { AudioPlayerService } from '../services/audio-player.service';
-import { LikeService } from '../services/like.service';
-import { UserService } from '../services/user.service';
+import { SearchService } from '../../core/services/search.service';
+import { AudioPlayerService } from '../../core/services/audio-player.service';
+import { LikeService } from '../../core/services/like.service';
+import { UserService } from '../../core/services/user.service';
 import { environment } from '../../../environments/environment.development';
 
 @Component({

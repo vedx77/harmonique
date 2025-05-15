@@ -3,12 +3,24 @@
     background: linear-gradient(135deg, #7f00ff, #3a00f4, #00c9a7);
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #fff;
     position: relative;
     overflow: hidden;
+}
+
+.title {
+    font-family: "Lobster", sans-serif;
+    font-weight: 400;
+    font-size: 36px;
+    background: linear-gradient(to right, #eca3fb, #76fdff);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    /* Safari */
 }
 
 /* Animated Music Notes */

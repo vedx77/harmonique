@@ -1,5 +1,6 @@
 .navbar {
-    background: #1c3d8a;
+    //background: #0d1117;
+    background: #222831;
     height: 60px;
     display: flex;
     align-items: center;
@@ -12,10 +13,11 @@
     font-family: "Lobster", sans-serif;
     font-weight: 400;
     font-size: 36px;
-    background: white;
+    background: linear-gradient(to right, #eca3fb, #76fdff);
     color: transparent;
     background-clip: text;
-    -webkit-background-clip: text; /* Safari */
+    -webkit-background-clip: text;
+    /* Safari */
 }
 
 .toggle-btn i {
@@ -97,12 +99,12 @@
 }
 
 .navbar-profile-img {
-    width: 30px;   // or any desired size like 32px, 50px
+    width: 30px; // or any desired size like 32px, 50px
     height: 30px;
     margin-right: 10px;
     border-radius: 50%; // makes it circular
-    object-fit: cover;  // ensures the image stays within bounds
-  }  
+    object-fit: cover; // ensures the image stays within bounds
+}
 
 .cursor-pointer {
     cursor: pointer;

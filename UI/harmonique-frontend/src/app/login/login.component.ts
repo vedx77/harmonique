@@ -3,7 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../home/services/auth.service'; // Update path if needed
+import { AuthService } from '../core/services/auth.service'; // Update path if needed
 import { HttpErrorResponse } from '@angular/common/http';
 import { ServicesService } from '../../services.service';
 

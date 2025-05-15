@@ -2,9 +2,9 @@ import { Component, HostListener, Inject, PLATFORM_ID, ViewChild } from '@angula
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UserService } from '../../home/services/user.service';
+import { UserService } from '../../core/services/user.service';
 import { environment } from '../../../environments/environment.development';
-import { SearchService } from '../../home/services/search.service';
+import { SearchService } from '../../core/services/search.service';
 
 @Component({
   selector: 'app-navbar',
@@ -36,7 +36,7 @@ export class NavbarComponent {
   searchQuery: string = ''; // Binds to input field
   userName: string = '';
   profilePictureUrl: string = '';
-  
+
   // User menu logic (stub)
   toggleMenu(event: MouseEvent): void {
     event.stopPropagation();
@@ -96,11 +96,11 @@ export class NavbarComponent {
     });
   }
 
-  getProfileImageUrl(filename: string): string {
-    return `${environment.uploadsBaseUrl}/profilepic/${filename}`;
+  getProfileImageUrl(fileName: string): string {
+    return `${environment.uploadsBaseUrl}${fileName}`;
   }
 
   onImageError(event: Event) {
     (event.target as HTMLImageElement).src = 'assets/default-profile.png';
-  }  
+  }
 }

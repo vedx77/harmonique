@@ -3,16 +3,16 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { AudioPlayerService } from '../home/services/audio-player.service'; // Adjust the path as needed
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment.development';
-import { AuthService } from './services/auth.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { SidebarService } from '../home/services/sidebar.service';
+import { environment } from '../../environments/environment.development';
 import { Subscription } from 'rxjs';
-import { LikeService } from './services/like.service';
-import { UserService } from './services/user.service';
+import { AuthService } from '../core/services/auth.service';
+import { AudioPlayerService } from '../core/services/audio-player.service';
+import { SidebarService } from '../core/services/sidebar.service';
+import { LikeService } from '../core/services/like.service';
+import { UserService } from '../core/services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -57,7 +57,6 @@ export class HomeComponent {
 
   isSidebarExpanded = false;
   private sidebarSubscription!: Subscription;
-
   userId: number = 0;
   likedSongIds: number[] = [];
   currentSongTitle: string = '';
@@ -87,15 +86,13 @@ export class HomeComponent {
       this.changeDetectorRef.detectChanges();
     });
 
-    this.fetchSongsFromBackend();
-
     // Fetch user ID and liked songs
     this.userService.getUserProfile().subscribe({
       next: (user) => {
         this.userId = user.id;
         this.likeService.getLikedSongsByUser(this.userId).subscribe({
           next: (likedIds) => {
-            this.likedSongIds = likedIds;
+            this.likedSongIds = likedIds.map(id => Number(id));
             this.fetchSongsFromBackend(); // Load songs after knowing liked ones
           },
           error: (err) => console.error('Error fetching liked songs:', err)
@@ -116,11 +113,11 @@ export class HomeComponent {
 
     const token = this.authService.getToken(); // <-- Use the stored token
 
-this.http.post(`${environment.songsApi}/upload/auto`, formData, {
-  headers: {
-    Authorization: `Bearer ${token}`
-  }
-}).subscribe({
+    this.http.post(`${environment.songsApi}/upload/auto`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).subscribe({
       next: (response: any) => {
         console.log('Upload successful:', response);
         this.fetchSongsFromBackend(); // Refresh the list after upload
@@ -136,59 +133,6 @@ this.http.post(`${environment.songsApi}/upload/auto`, formData, {
     window.open(downloadUrl, '_blank');
   }
 
-
-  // fetchSongsFromBackend(): void {
-  //   this.http.get<any[]>(environment.songsApi)
-  //     .subscribe(
-  //       (data) => {
-  //         this.backendSongs = data.map(song => ({
-  //           ...song,
-  //           image: song.imageUrl  // ✅ Assign the backend image URL to the image field
-  //         }));
-  //       },
-  //       (error) => {
-  //         console.error('Error fetching songs:', error);
-  //       }
-  //     );
-  // }
-
-  //O2
-  // fetchSongsFromBackend(): void {
-  //   this.http.get<any[]>(environment.songsApi).subscribe(
-  //     (data) => {
-  //       this.backendSongs = data.map(song => ({
-  //         ...song,
-  //         image: song.imageUrl,
-  //         isLiked: this.likedSongIds.includes(song.id)
-  //       }));
-  //     },
-  //     (error) => {
-  //       console.error('Error fetching songs:', error);
-  //     }
-  //   );
-  // }
-
-  // O3
-  // fetchSongsFromBackend(): void {
-  //   this.http.get<any[]>(environment.songsApi).subscribe(
-  //     (data) => {
-  //       this.backendSongs = data.map(song => ({
-  //         ...song,
-  //         image: song.imageUrl,
-  //         isLiked: this.likedSongIds.includes(song.id)
-  //       }));
-
-  //       // ✅ Push all songs into the global audio service queue
-  //       this.audioService.setSongs(this.backendSongs);
-  //     },
-  //     (error) => {
-  //       console.error('Error fetching songs:', error);
-  //     }
-  //   );
-  // }
-
-
-  // O4
   fetchSongsFromBackend(): void {
     this.http.get<any[]>(environment.songsApi).subscribe(
       (data) => {
@@ -196,7 +140,7 @@ this.http.post(`${environment.songsApi}/upload/auto`, formData, {
           const audio = new Audio(song.url); // Assumes `url` field holds audio link
           const songObj = {
             id: song.id,
-            name: song.title,
+            title: song.title,
             src: song.url,
             audio: audio,
             isPlaying: false,
@@ -227,41 +171,58 @@ this.http.post(`${environment.songsApi}/upload/auto`, formData, {
     );
   }
 
-
   playBackendSong(index: number): void {
     const songToPlay = this.backendSongs[index];
     this.audioService.playSong(songToPlay);
   }
 
-  toggleLike(songId: number): void {
-    const index = this.likedSongIds.indexOf(songId);
+  trackBySongId(index: number, song: any): number {
+    return song.id;
+  }
 
-    if (index > -1) {
-      // Dislike
-      this.likeService.unlikeSong(this.userId, songId).subscribe({
-        next: () => {
-          this.likedSongIds.splice(index, 1);
-          this.updateSongLikeStatus(songId, false);
-        },
-        error: (err) => console.error('Error unliking song:', err)
-      });
+  toggleLike(songId: number): void {
+    const isCurrentlyLiked = this.likedSongIds.includes(songId);
+
+    // Update likedSongIds immediately
+    if (isCurrentlyLiked) {
+      this.likedSongIds = this.likedSongIds.filter(id => id !== songId);
     } else {
-      // Like
-      this.likeService.likeSong(this.userId, songId).subscribe({
-        next: () => {
-          this.likedSongIds.push(songId);
-          this.updateSongLikeStatus(songId, true);
-        },
-        error: (err) => console.error('Error liking song:', err)
-      });
+      this.likedSongIds.push(songId);
     }
+
+    // Immediately toggle UI state
+    this.updateSongLikeStatus(songId, !isCurrentlyLiked);
+
+    // Fire-and-forget the API call
+    const likeOp = isCurrentlyLiked
+      ? this.likeService.unlikeSong(this.userId, songId)
+      : this.likeService.likeSong(this.userId, songId);
+
+    likeOp.subscribe({
+      next: () => {
+        // No need to do anything; state already updated
+      },
+      error: (err) => {
+        console.warn('Like/Unlike failed:', err);
+        // Optionally: revert state
+      }
+    });
   }
 
   updateSongLikeStatus(songId: number, isLiked: boolean): void {
-    const song = this.backendSongs.find(s => s.id === songId);
-    if (song) {
-      song.isLiked = isLiked;
-      this.changeDetectorRef.detectChanges();
+    const index = this.backendSongs.findIndex(s => s.id === songId);
+    if (index > -1) {
+      const updatedSong = {
+        ...this.backendSongs[index],
+        isLiked: isLiked
+      };
+
+      // Replace the song object in the array to trigger change detection
+      this.backendSongs = [
+        ...this.backendSongs.slice(0, index),
+        updatedSong,
+        ...this.backendSongs.slice(index + 1)
+      ];
     }
   }
 
@@ -281,20 +242,12 @@ this.http.post(`${environment.songsApi}/upload/auto`, formData, {
     this.audioService.seekTo(parseFloat(input.value));
   }
 
-  // These methods are not implemented but kept to maintain compatibility
-  Duration(_event: Event, _t16: number) {
-    // Implementation not needed as we're using the service now
-  }
-
-  updateTime(_event: Event, _t16: number) {
-    // Implementation not needed as we're using the service now
-  }
-  scrollIndex: number = 0;
-  scrollSongs() {
-    const songScroll: HTMLElement = document.querySelector('.song-scroll')!;
-    const songWidth = songScroll.children[0].clientWidth; // Get the width of a single song container
-    songScroll.scrollLeft = songWidth * this.scrollIndex; // Scroll horizontally by the width of a song
-  }
+  // scrollIndex: number = 0;
+  // scrollSongs() {
+  //   const songScroll: HTMLElement = document.querySelector('.song-scroll')!;
+  //   const songWidth = songScroll.children[0].clientWidth; // Get the width of a single song container
+  //   songScroll.scrollLeft = songWidth * this.scrollIndex; // Scroll horizontally by the width of a song
+  // }
 
   ngOnDestroy(): void {
     if (this.sidebarSubscription) {

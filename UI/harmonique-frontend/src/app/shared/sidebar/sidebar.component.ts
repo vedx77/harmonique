@@ -13,10 +13,7 @@ import {
   NavigationEnd
 } from '@angular/router';
 
-import {
-  CommonModule,
-  NgIf
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 interface MenuItem {
   id: number;
@@ -29,7 +26,7 @@ interface MenuItem {
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, NgIf, RouterLink, RouterModule],
+  imports: [CommonModule, RouterLink, RouterModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],

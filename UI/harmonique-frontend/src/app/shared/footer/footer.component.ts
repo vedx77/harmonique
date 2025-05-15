@@ -1,7 +1,7 @@
 // footer.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AudioPlayerService } from '../../home/services/audio-player.service';
+import { AudioPlayerService } from '../../core/services/audio-player.service';
 
 @Component({
   selector: 'app-footer',

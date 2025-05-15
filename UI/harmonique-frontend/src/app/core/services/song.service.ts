@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment.development';
 
 // Defining the Song model
 export interface Song {
+    imageUrl: any;
     id: number;
     title: string;
     artist: string;
@@ -29,6 +30,11 @@ export class SongService {
     // Method to fetch all songs from the backend
     getAllSongs(): Observable<Song[]> {
         return this.http.get<Song[]>(this.baseUrl);
+    }
+
+    // Method to get a song by id
+    getSongById(songId: number): Observable<Song> {
+        return this.http.get<Song>(`${this.baseUrl}/${songId}`);
     }
 
     // Updated method to upload a song file
