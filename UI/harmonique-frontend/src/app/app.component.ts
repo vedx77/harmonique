@@ -33,6 +33,7 @@ export class AppComponent implements OnDestroy {
   showFooter = true;
   showNavbar = true;
   layoutClass = 'with-layout';
+  showLayout = true;
 
   private routerSubscription: Subscription;
 
@@ -43,11 +44,11 @@ export class AppComponent implements OnDestroy {
         if (event instanceof NavigationEnd) {
           const currentUrl = event.url.split('?')[0]; // Remove query params
 
+          this.showLayout = !NO_LAYOUT_ROUTES.includes(currentUrl);
           this.showNavAndSidebar = !NO_LAYOUT_ROUTES.includes(currentUrl);
           this.showFooter = !HIDE_FOOTER_ROUTES.includes(currentUrl);
           this.showNavbar = !HIDE_NAVBAR_ROUTES.includes(currentUrl);
           this.layoutClass = NO_LAYOUT_ROUTES.includes(currentUrl) ? 'no-layout' : 'with-layout';
-
         }
       });
   }

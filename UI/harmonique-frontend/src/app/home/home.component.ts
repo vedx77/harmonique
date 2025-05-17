@@ -204,7 +204,6 @@ export class HomeComponent {
       },
       error: (err) => {
         console.warn('Like/Unlike failed:', err);
-        // Optionally: revert state
       }
     });
   }
@@ -241,13 +240,6 @@ export class HomeComponent {
     const input = event.target as HTMLInputElement;
     this.audioService.seekTo(parseFloat(input.value));
   }
-
-  // scrollIndex: number = 0;
-  // scrollSongs() {
-  //   const songScroll: HTMLElement = document.querySelector('.song-scroll')!;
-  //   const songWidth = songScroll.children[0].clientWidth; // Get the width of a single song container
-  //   songScroll.scrollLeft = songWidth * this.scrollIndex; // Scroll horizontally by the width of a song
-  // }
 
   ngOnDestroy(): void {
     if (this.sidebarSubscription) {
