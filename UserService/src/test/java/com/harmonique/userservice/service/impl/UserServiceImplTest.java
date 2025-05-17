@@ -50,13 +50,13 @@ class UserServiceImplTest {
     @Test
     void testRegisterUser_Success() {
         UserRequest userRequest = new UserRequest();
-        userRequest.setName("John");
+        userRequest.setFirstName("John");
         userRequest.setEmail("john@example.com");
         userRequest.setPassword("pass123");
         userRequest.setAbout("About John");
 
         Role userRole = Role.builder().id(1L).name("USER").build();
-        User savedUser = User.builder().id(1L).name("John").email("john@example.com").password("encodedPass").about("About John").roles(new HashSet<>(Set.of(userRole))).build();
+        User savedUser = User.builder().id(1L).firstName("John").email("john@example.com").password("encodedPass").about("About John").roles(new HashSet<>(Set.of(userRole))).build();
         UserResponse userResponse = new UserResponse();
 
         when(roleRepository.findById(1L)).thenReturn(Optional.of(userRole));

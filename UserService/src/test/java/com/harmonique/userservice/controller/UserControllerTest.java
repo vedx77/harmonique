@@ -41,7 +41,7 @@ public class UserControllerTest {
         // Prepare mocked service response
     	UserResponse mockResponse = UserResponse.builder()
     	        .id(1L)
-    	        .name("testuser")
+    	        .firstName("testuser")
     	        .email("testuser@example.com")
     	        .about("Sample about text")
     	        .roles(Set.of(new Role(1L, "ROLE_USER")))

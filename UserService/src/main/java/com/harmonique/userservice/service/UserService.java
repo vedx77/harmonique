@@ -16,7 +16,7 @@ public interface UserService {
     UserResponse getUserByEmail(String email);
     
     // 1. Register New User
-    UserResponse registerUser(UserRequest userRequest);
+    //UserResponse registerUser(UserRequest userRequest);
 
     // 2. Login (JWT Auth) - Returns token inside response
     JwtAuthResponse login(JwtAuthRequest request);
@@ -32,4 +32,6 @@ public interface UserService {
 
     // 6. Get Profile pic of user
     UserResponse updateProfilePicture(String username, MultipartFile file) throws IOException;
+
+	UserResponse registerUser(UserRequest request) throws IOException;
 }

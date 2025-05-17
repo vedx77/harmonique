@@ -33,4 +33,34 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<ApiResponse> handleEmailAlreadyExists(EmailAlreadyExistsException ex) {
+        ApiResponse response = ApiResponse.builder()
+                .message(ex.getMessage())
+                .success(false)
+                .status(HttpStatus.CONFLICT.value())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(UsernameAlreadyExistsException.class)
+    public ResponseEntity<ApiResponse> handleUsernameAlreadyExists(UsernameAlreadyExistsException ex) {
+        ApiResponse response = ApiResponse.builder()
+                .message(ex.getMessage())
+                .success(false)
+                .status(HttpStatus.CONFLICT.value())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(MissingContactInformationException.class)
+    public ResponseEntity<ApiResponse> handleMissingContact(MissingContactInformationException ex) {
+        ApiResponse response = ApiResponse.builder()
+                .message(ex.getMessage())
+                .success(false)
+                .status(HttpStatus.BAD_REQUEST.value())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 }

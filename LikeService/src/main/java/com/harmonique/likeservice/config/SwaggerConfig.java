@@ -1,4 +1,4 @@
-package com.harmonique.songservice.config;
+package com.harmonique.likeservice.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -17,7 +17,7 @@ public class SwaggerConfig {
     OpenAPI apiInfo() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Harmonique - Song Service APIs")
+                        .title("Harmonique - Like Service APIs")
                         .description("Personal Music Library & Downloader by Vedant Shinde")
                         .version("v1.0")
                         .contact(new Contact()

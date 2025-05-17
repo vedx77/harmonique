@@ -21,10 +21,16 @@ spring:
             predicates:
               - Path=/api/user/**
           - id: user-static-files
-            uri: http://localhost:8081
+            uri: lb://user-service
             predicates:
               - Path=/profilepic/**
+
           - id: song-service
-            uri: http://localhost:8082
+            uri: lb://song-service
             predicates:
               - Path=/api/songs/**
+
+          - id: like-service
+            uri: lb://like-service
+            predicates:
+              - Path=/api/likes/**

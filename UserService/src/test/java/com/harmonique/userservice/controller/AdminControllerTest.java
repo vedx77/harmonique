@@ -35,16 +35,20 @@ class AdminControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @SuppressWarnings("removal")
+	@MockBean
     private UserService userService;
     
-    @MockBean
+    @SuppressWarnings("removal")
+	@MockBean
     private JwtTokenHelper jwtTokenHelper;
 
-    @MockBean
+    @SuppressWarnings("removal")
+	@MockBean
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    private ObjectMapper objectMapper;
+    @SuppressWarnings("unused")
+	private ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
@@ -57,7 +61,7 @@ class AdminControllerTest {
         String email = "admin@example.com";
         UserResponse mockUser = UserResponse.builder()
                 .id(1L)
-                .name("Admin User")
+                .firstName("Admin User")
                 .email(email)
                 .build();
 
@@ -75,8 +79,8 @@ class AdminControllerTest {
     @Test
     void testGetAllUsers() throws Exception {
         // Arrange
-        UserResponse user1 = UserResponse.builder().id(1L).name("User One").email("one@example.com").build();
-        UserResponse user2 = UserResponse.builder().id(2L).name("User Two").email("two@example.com").build();
+        UserResponse user1 = UserResponse.builder().id(1L).firstName("User One").email("one@example.com").build();
+        UserResponse user2 = UserResponse.builder().id(2L).firstName("User Two").email("two@example.com").build();
         List<UserResponse> mockUsers = Arrays.asList(user1, user2);
 
         when(userService.getAllUsers()).thenReturn(mockUsers);

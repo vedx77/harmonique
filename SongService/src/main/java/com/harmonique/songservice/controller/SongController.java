@@ -159,22 +159,43 @@ public class SongController {
 
     // Download a song file by song ID.
     
+//    @GetMapping("/download/{id}")
+//    @Operation(summary = "Download song file by ID")
+//    public ResponseEntity<byte[]> downloadSongFile(@PathVariable Long id) {
+//        logger.info("Downloading song file with ID: {}", id);
+//
+//        SongResponse songResponse = songService.getSongById(id);
+//        byte[] fileData = songService.downloadSongFile(id);
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//        headers.setContentDispositionFormData("attachment", "song-" + id + ".mp3");
+//
+//        return ResponseEntity.ok()
+//                .headers(headers)
+//                .body(fileData);
+//    }
+
     @GetMapping("/download/{id}")
     @Operation(summary = "Download song file by ID")
     public ResponseEntity<byte[]> downloadSongFile(@PathVariable Long id) {
         logger.info("Downloading song file with ID: {}", id);
 
+        SongResponse songResponse = songService.getSongById(id); // 🔹 Gets song metadata including title
         byte[] fileData = songService.downloadSongFile(id);
+
+        // Sanitize title to avoid illegal characters in filenames
+        String safeTitle = songResponse.getTitle().replaceAll("[^a-zA-Z0-9\\-_\\. ]", "_");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDispositionFormData("attachment", "song-" + id + ".mp3");
+        headers.setContentDispositionFormData("attachment", safeTitle + ".mp3");
 
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(fileData);
     }
-
+    
     // ------------------------------------------
     // Search API
     // ------------------------------------------

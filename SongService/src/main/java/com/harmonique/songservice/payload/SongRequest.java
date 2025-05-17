@@ -9,12 +9,13 @@ import lombok.*;
 @Builder
 public class SongRequest {
 
-    private String title; // Now optional (manual OR metadata)
+    private String title;
     private String artist;
     private String album;
     private String genre;
     private String language;
     private String duration;
+    private String filePath;
     private String url;
     private String imageUrl;
     private String description;

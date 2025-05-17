@@ -143,6 +143,8 @@ public class SongServiceImpl implements SongService {
             SongRequest request = extractMetadataFromFile(filePath.toFile(), fileUrl);
             request.setUploadedBy(uploadedBy);
             
+            request.setFilePath(filePath.toString());
+            
             log.info("📥 Uploading song with auto-extracted metadata | File: '{}'", file.getOriginalFilename());
             return createSong(request);
 
@@ -156,15 +158,50 @@ public class SongServiceImpl implements SongService {
     // FILE DOWNLOADS
     // ===========================    
     
+//    @Override
+//    public byte[] downloadSongFile(Long songId) {
+//        Song song = songRepository.findById(songId)
+//                .orElseThrow(() -> new ResourceNotFoundException("Song not found with ID: " + songId));
+//        Path filePath = Paths.get(song.getUrl());  // Assuming `song.getUrl()` holds the file path
+//        try {
+//            return Files.readAllBytes(filePath);
+//        } catch (IOException e) {
+//            log.error("❌ Failed to read file | Error: {}", e.getMessage(), e);
+//            throw new RuntimeException("Failed to download file: " + e.getMessage());
+//        }
+//    }
+    
+//    @Override
+//    public byte[] downloadSongFile(Long songId) {
+//        Song song = songRepository.findById(songId)
+//                .orElseThrow(() -> new ResourceNotFoundException("Song not found with ID: " + songId));
+//
+//        Path filePath = Paths.get(song.getFilePath()); // ✅ Use actual server-side path
+//
+//        try {
+//            return Files.readAllBytes(filePath);
+//        } catch (IOException e) {
+//            log.error("❌ Failed to read file | Error: {}", e.getMessage(), e);
+//            throw new RuntimeException("Failed to download file: " + e.getMessage());
+//        }
+//    }
+    
     @Override
     public byte[] downloadSongFile(Long songId) {
         Song song = songRepository.findById(songId)
                 .orElseThrow(() -> new ResourceNotFoundException("Song not found with ID: " + songId));
-        Path filePath = Paths.get(song.getUrl());  // Assuming `song.getUrl()` holds the file path
+
+        // ✅ Use actual file path from DB
+        String filePathStr = song.getFilePath();
+        if (filePathStr == null || filePathStr.isBlank()) {
+            throw new RuntimeException("No file path found for song ID: " + songId);
+        }
+
+        Path filePath = Paths.get(filePathStr);
         try {
             return Files.readAllBytes(filePath);
         } catch (IOException e) {
-            log.error("❌ Failed to read file | Error: {}", e.getMessage(), e);
+            log.error("❌ Failed to read file | Path: {}, Error: {}", filePath, e.getMessage(), e);
             throw new RuntimeException("Failed to download file: " + e.getMessage());
         }
     }
@@ -291,6 +328,7 @@ public class SongServiceImpl implements SongService {
                 .genre(request.getGenre())
                 .language(request.getLanguage())
                 .duration(request.getDuration())
+                .filePath(request.getFilePath())
                 .url(request.getUrl())
                 .imageUrl(request.getImageUrl())
                 .uploadedBy(request.getUploadedBy())
