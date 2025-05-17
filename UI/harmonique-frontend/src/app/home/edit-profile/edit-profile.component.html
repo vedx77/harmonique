@@ -1,0 +1,321 @@
+<!-- Navigation -->
+
+<nav class="navbar navbar-expand-lg navbar-light shadow-sm sticky-top">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <i class="fas fa-arrow-left fs-4 mt-4" (click)="goBack()" style="cursor: pointer; color: #6e45e2; border-radius: 1px;"></i>
+      <div style="width: 24px;"></div> <!-- Spacer for alignment -->
+    </div>
+    <a class="navbar-brand" href="#">HARMONIQUE</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fas fa-home me-1"></i> Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fas fa-music me-1"></i> Library</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fas fa-user me-1"></i> Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#"><i class="fas fa-cog me-1"></i> Settings</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Edit Header -->
+<header class="edit-header text-center">
+  <div class="container">
+    <h1 class="display-5">Edit Profile</h1>
+    <p class="lead">Update your personal information and preferences</p>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="container">
+  <!-- Avatar Upload -->
+  <div class="row justify-content-center mb-4">
+    <div class="col-auto text-center">
+      <div class="avatar-upload">
+        <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Profile" class="profile-avatar-edit"
+          id="profileAvatar">
+        <div class="avatar-upload-edit">
+          <i class="fas fa-camera"></i>
+          <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
+        </div>
+      </div>
+      <button class="btn btn-outline btn-sm mt-3">Change Avatar</button>
+    </div>
+  </div>
+
+  <!-- Edit Form Tabs -->
+  <ul class="nav nav-pills mb-4 justify-content-center" id="editProfileTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="profile-tab" data-bs-toggle="pill" data-bs-target="#profile" type="button"
+        role="tab">
+        <i class="fas fa-user-edit me-1"></i> Profile
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="privacy-tab" data-bs-toggle="pill" data-bs-target="#privacy" type="button"
+        role="tab">
+        <i class="fas fa-lock me-1"></i> Privacy
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="preferences-tab" data-bs-toggle="pill" data-bs-target="#preferences" type="button" role="tab">
+        <i class="pi pi-cog"></i> Preferences
+      </button>
+    </li>
+  </ul>
+
+  <!-- Tab Content -->
+  <div class="tab-content" id="editProfileTabsContent">
+    <!-- Profile Tab -->
+    <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+      <div class="edit-form-container">
+        <form>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="firstName" class="form-label">First Name</label>
+              <input type="text" class="form-control" id="firstName" value="Sarah">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="lastName" class="form-label">Last Name</label>
+              <input type="text" class="form-control" id="lastName" value="Johnson">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <div class="input-group">
+              <span class="input-group-text">%</span>
+              <input type="text" class="form-control" id="username" value="sarahj">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="bio" class="form-label">Bio</label>
+            <textarea class="form-control" id="bio"
+              rows="3">Music enthusiast • Playlist curator • Local music supporter</textarea>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="location" class="form-label">Location</label>
+              <input type="text" class="form-control" id="location" value="New York, USA">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="joinDate" class="form-label">Member Since</label>
+              <input type="text" class="form-control" id="joinDate" value="June 2021" disabled>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end mt-4">
+            <button type="button" class="btn btn-outline me-2">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Privacy Tab -->
+    <div class="tab-pane fade" id="privacy" role="tabpanel" aria-labelledby="privacy-tab">
+      <div class="edit-form-container">
+        <h4 class="mb-4"><i class="fas fa-lock me-2"></i>Privacy Settings</h4>
+
+        <div class="mb-4">
+          <h5>Profile Visibility</h5>
+          <p class="text-muted">Who can see your profile and activity</p>
+
+          <div class="row">
+            <div class="col-md-4">
+              <div class="privacy-option active">
+                <i class="fas fa-globe"></i>
+                <h6>Public</h6>
+                <p class="small text-muted">Anyone can see your profile</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="privacy-option">
+                <i class="fas fa-users"></i>
+                <h6>Followers Only</h6>
+                <p class="small text-muted">Only your followers can see</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="privacy-option">
+                <i class="fas fa-lock"></i>
+                <h6>Private</h6>
+                <p class="small text-muted">Only you can see your profile</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <h5>Activity Sharing</h5>
+          <p class="text-muted">Control what activity is shared on your profile</p>
+
+          <div class="form-check form-switch mb-3">
+            <input class="form-check-input" type="checkbox" id="shareListening" checked>
+            <label class="form-check-label" for="shareListening">Share what I'm listening to</label>
+          </div>
+
+          <div class="form-check form-switch mb-3">
+            <input class="form-check-input" type="checkbox" id="sharePlaylists" checked>
+            <label class="form-check-label" for="sharePlaylists">Show my public playlists</label>
+          </div>
+
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="shareFollowers">
+            <label class="form-check-label" for="shareFollowers">Show my followers/following count</label>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end mt-4">
+          <button type="button" class="btn btn-outline me-2">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Privacy Settings</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preferences Tab -->
+    <div class="tab-pane fade" id="preferences" role="tabpanel" aria-labelledby="preferences-tab">
+      <div class="edit-form-container">
+        <h4 class="mb-4"><i class="fas fa-sliders-h me-2"></i>Preferences</h4>
+
+        <div class="mb-4">
+          <h5>Playback Settings</h5>
+
+          <div class="form-check form-switch mb-3">
+            <input class="form-check-input" type="checkbox" id="autoplay" checked>
+            <label class="form-check-label" for="autoplay">Enable Autoplay</label>
+            <p class="small text-muted">Automatically play similar songs when your music ends</p>
+          </div>
+
+          <div class="form-check form-switch mb-3">
+            <input class="form-check-input" type="checkbox" id="explicitContent">
+            <label class="form-check-label" for="explicitContent">Allow Explicit Content</label>
+            <p class="small text-muted">Include songs with explicit lyrics in your playlists</p>
+          </div>
+
+          <div class="mb-3">
+            <label for="audioQuality" class="form-label">Audio Quality</label>
+            <select class="form-select" id="audioQuality">
+              <option value="low">Low (Data Saver)</option>
+              <option value="medium" selected>Medium (Balanced)</option>
+              <option value="high">High (Best Quality)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <h5>Appearance</h5>
+
+          <div class="mb-3">
+            <label for="theme" class="form-label">Theme</label>
+            <select class="form-select" id="theme">
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+              <option value="system">System Default</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="accentColor" class="form-label">Accent Color</label>
+            <div class="d-flex">
+              <div class="color-option me-2 rounded-circle"
+                style="width: 30px; height: 30px; background: #6e45e2; cursor: pointer;" data-color="#6e45e2"></div>
+              <div class="color-option me-2 rounded-circle"
+                style="width: 30px; height: 30px; background: #1DB954; cursor: pointer;" data-color="#1DB954"></div>
+              <div class="color-option me-2 rounded-circle"
+                style="width: 30px; height: 30px; background: #FF2D55; cursor: pointer;" data-color="#FF2D55"></div>
+              <div class="color-option me-2 rounded-circle"
+                style="width: 30px; height: 30px; background: #5856D6; cursor: pointer;" data-color="#5856D6"></div>
+              <div class="color-option rounded-circle"
+                style="width: 30px; height: 30px; background: #FF9500; cursor: pointer;" data-color="#FF9500"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end mt-4">
+          <button type="button" class="btn btn-outline me-2">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Preferences</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h5>HARMONIQUE</h5>
+        <p>Your local music player for a personalized listening experience.</p>
+      </div>
+      <div class="col-md-4">
+        <h5>Quick Links</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-white">Home</a></li>
+          <li><a href="#" class="text-white">Library</a></li>
+          <li><a href="#" class="text-white">Profile</a></li>
+          <li><a href="#" class="text-white">Settings</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h5>Connect With Us</h5>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+          <a href="#"><i class="fab fa-discord"></i></a>
+        </div>
+      </div>
+    </div>
+    <hr class="mt-4 bg-light">
+    <div class="text-center">
+      <p class="mb-0">&copy; 2023 Harmonique Music Player. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- <script>
+  // Simple script for avatar upload preview
+  document.getElementById('avatarUpload').addEventListener('change', function (e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        document.getElementById('profileAvatar').src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Privacy option selection
+  document.querySelectorAll('.privacy-option').forEach(option => {
+    option.addEventListener('click', function () {
+      document.querySelectorAll('.privacy-option').forEach(opt => {
+        opt.classList.remove('active');
+      });
+      this.classList.add('active');
+    });
+  });
+
+  // Color option selection
+  document.querySelectorAll('.color-option').forEach(color => {
+    color.addEventListener('click', function () {
+      // In a real app, this would change the theme color
+      console.log('Selected color:', this.dataset.color);
+    });
+  });
+</script> -->

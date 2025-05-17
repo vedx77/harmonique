@@ -1,0 +1,67 @@
+:host {
+    display: block;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.app-layout {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 90px); // subtract footer height
+}
+
+app-navbar {
+    height: 60px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1001;
+    background-color: #393E46;
+}
+
+.app-content {
+    display: flex;
+    flex: 1;
+    margin-top: 60px; // push below navbar
+    height: calc(100vh - 60px - 90px); // subtract navbar + footer
+    overflow: hidden;
+}
+
+.sidebar-wrapper {
+    width: 60px;
+    transition: width 0.3s ease;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.sidebar-wrapper:hover {
+    width: 220px;
+}
+
+/* Style app-sidebar properly inside the wrapper */
+.sidebar-wrapper app-sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100%;
+    background: #1c3d8a;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.main-content {
+    flex: 1;
+    padding: 0px;
+    background: #393E46;
+    overflow-y: auto;
+    height: 100%;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.main-content::-webkit-scrollbar {
+    display: none;
+}

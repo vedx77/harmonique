@@ -1,0 +1,111 @@
+.navbar {
+    //background: #0d1117;
+    background: #222831;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 1050;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    font-family: "Lobster", sans-serif;
+    font-weight: 400;
+    font-size: 36px;
+    background: linear-gradient(to right, #eca3fb, #76fdff);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    /* Safari */
+}
+
+.toggle-btn i {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #fff;
+}
+
+.user-actions {
+    display: flex;
+    align-items: center;
+}
+
+// .notifications .bell {
+//     width: 22px;
+//     cursor: pointer;
+// }
+
+.user-profile {
+    cursor: pointer;
+}
+
+.profile-pic {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-text h5 {
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+}
+
+.profile-text .text-muted {
+    font-size: 12px;
+    color: #eee;
+}
+
+.search-bar {
+    width: 400px;
+
+    // input {
+    //     padding-left: 2rem;
+    //     border-radius: 50px;
+    // }
+
+    .search-icon {
+        position: absolute;
+        top: 50%;
+        left: 12px;
+        transform: translateY(-50%);
+        color: white;
+        font-size: 1rem;
+    }
+
+    .search-input {
+        padding-left: 2.2rem;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        height: 38px;
+        font-size: 0.95rem;
+    }
+
+    .rounded-pill {
+        background: rgb(208, 225, 255);
+    }
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    border-radius: 0.5rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    margin-right: 50px;
+}
+
+.navbar-profile-img {
+    width: 30px; // or any desired size like 32px, 50px
+    height: 30px;
+    margin-right: 10px;
+    border-radius: 50%; // makes it circular
+    object-fit: cover; // ensures the image stays within bounds
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
  * REST controller for managing Songs.
  * Includes CRUD operations, upload/download APIs, and search functionality.
  */
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/songs")
 @Tag(name = "Songs", description = "APIs for managing songs (upload, download, search)")

@@ -1,0 +1,81 @@
+<div class="about-page">
+
+  <section class="hero">
+    <div class="music-notes">
+      <span class="note">♬</span>
+      <span class="note">♪</span>
+      <span class="note">♫</span>
+    </div>
+  
+    <div class="container">
+      <h1>About Harmonique</h1>
+      <p class="subtitle">Your gateway to the local music scene</p>
+    </div>
+  </section>
+
+  <!-- Mission Section -->
+  <section class="mission">
+    <div class="container">
+      <h2>Our Mission</h2>
+      <p class="mission-statement">
+        Harmonique was born from a simple idea: every community has incredible musical talent that often goes unheard.
+        We're building bridges between local artists and audiences who appreciate authentic, homegrown music.
+      </p>
+      <div class="stats">
+        <div class="stat">
+          <div class="number">250+</div>
+          <div class="label">Local Artists</div>
+        </div>
+        <div class="stat">
+          <div class="number">10K+</div>
+          <div class="label">Active Listeners</div>
+        </div>
+        <div class="stat">
+          <div class="number">50+</div>
+          <div class="label">Communities</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <h2>Why Choose Harmonique</h2>
+      <div class="features-grid">
+        <div class="feature-card" *ngFor="let feature of features">
+          <div class="feature-icon">{{feature.icon}}</div>
+          <h3>{{feature.title}}</h3>
+          <p>{{feature.description}}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section class="team">
+    <div class="container">
+      <h2>Meet The Team</h2>
+      <div class="team-grid">
+        <div class="team-member" *ngFor="let member of teamMembers">
+          <img [src]="member.avatar" [alt]="member.name" class="avatar">
+          <h3>{{member.name}}</h3>
+          <p class="role">{{member.role}}</p>
+          <p class="bio">{{member.bio}}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <div class="container">
+      <h2>Join the Local Music Revolution</h2>
+      <p>Whether you're an artist or a music lover, Harmonique has something for you.</p>
+      <div class="cta-buttons">
+        <a routerLink="/register" class="btn btn-primary">Sign Up Free</a>
+        <a routerLink="/artists" class="btn btn-outline">Explore Songs</a>
+      </div>
+    </div>
+  </section>
+</div>

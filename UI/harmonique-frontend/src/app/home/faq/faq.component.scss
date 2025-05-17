@@ -1,0 +1,153 @@
+:root {
+  --primary-color: #1DB954; // Spotify-like green
+  --secondary-color: #191414; // Dark background
+  --text-color: #333333;
+  --light-gray: #f5f5f5;
+  --border-color: #e1e1e1;
+
+  --harmonique-purple: #6e45e2;
+  --harmonique-teal: #89d4cf;
+  --box-shadow: 0 4px 15px rgba(110, 69, 226, 0.1);
+}
+
+.container-fluid {
+  background: linear-gradient(135deg, #7f00ff, #3a00f4, #00c9a7);
+  height: 200vh;
+  padding: 0;
+  margin-top: 3rem;
+}
+
+.navbar-brand {
+  font-weight: 600;
+  color: var(--primary-color) !important;
+}
+
+.faq-header {
+  background-color: var(--light-gray);
+  padding: 3rem 0;
+  margin-bottom: 2rem;
+  border-radius: 0 0 10px 10px;
+  text-align: center;
+  color: white;
+
+  h1 {
+    font-weight: 700;
+    font-size: 2.5rem;
+  }
+
+  p {
+    font-size: 1.25rem;
+  }
+}
+
+main.container {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.faq-section {
+  margin-bottom: 3rem;
+
+  h2 {
+    color: var(--harmonique-purple);
+    border-bottom: 2px solid var(--harmonique-teal);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+
+    i {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.faq-item {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--box-shadow);
+  border-top: 3px solid var(--harmonique-teal);
+
+  h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+  }
+
+  p {
+    margin-bottom: 0;
+    color: var(--text-color);
+  }
+}
+
+.note-box {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  margin: 2rem 0;
+  border-left: 4px solid var(--harmonique-purple);
+  box-shadow: var(--box-shadow);
+
+  strong {
+    color: var(--harmonique-purple);
+  }
+}
+
+footer {
+  background: linear-gradient(135deg, #6e45e2 0%, #89d4cf 100%);
+  color: white;
+  padding: 3rem 0;
+  margin-top: 3rem;
+
+  h5 {
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  p,
+  li,
+  a {
+    color: white;
+    text-decoration: none;
+  }
+
+  ul {
+    padding-left: 0;
+    list-style: none;
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .social-links a {
+    margin-right: 1rem;
+    color: white;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  hr {
+    background-color: white;
+    margin: 2rem 0;
+  }
+
+  .text-center {
+    p {
+      margin: 0;
+    }
+  }
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+
+  &:hover {
+    background-color: #1ed760;
+    border-color: #1ed760;
+  }
+}

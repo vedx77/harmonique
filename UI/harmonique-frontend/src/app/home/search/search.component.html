@@ -1,0 +1,112 @@
+<div class="container-fluid">
+  <div class="search-container">
+    <div class="head-container">
+      <h5 class="head mb-0">Search Results for "{{ query }}"</h5>
+    </div>
+
+    <div *ngIf="loading" class="status-text">🔍 Searching...</div>
+    <div *ngIf="errorMessage" class="error-text">{{ errorMessage }}</div>
+    <div *ngIf="!loading && searchResults.length === 0" class="status-text">
+      ❌ No results found.
+    </div>
+
+    <div *ngIf="searchResults.length > 0" class="song-grid">
+      <mat-card
+        class="song-card"
+        *ngFor="let song of searchResults; let i = index"
+        (click)="playSong(i)"
+      >
+        <div class="icon-overlay" (click)="$event.stopPropagation()">
+          <button mat-icon-button (click)="downloadSong(song.id)">
+            <mat-icon>file_download</mat-icon>
+          </button>
+          <button mat-icon-button (click)="toggleLike(song.id)">
+            <mat-icon>
+              {{ song.isLiked ? 'favorite' : 'favorite_border' }}
+            </mat-icon>
+          </button>
+        </div>
+
+        <img
+          mat-card-image
+          [src]="song.image || 'assets/default-song.jpg'"
+          alt="cover"
+          class="album-img"
+        />
+
+        <mat-card-content>
+          <mat-card-title>{{ song.title }}</mat-card-title>
+          <mat-card-subtitle>{{ song.artist }}</mat-card-subtitle>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- <div class="container-fluid">
+  <div class="search-container">
+    <h2>Search Results for "{{ query }}"</h2>
+
+    <div *ngIf="loading" class="status-text">🔍 Searching...</div>
+    <div *ngIf="errorMessage" class="error-text">{{ errorMessage }}</div>
+    <div *ngIf="!loading && searchResults.length === 0" class="status-text">
+      ❌ No results found.
+    </div>
+
+    <div *ngIf="searchResults.length > 0" class="song-grid">
+      <mat-card *ngFor="let song of searchResults; let i = index" class="song-card">
+        <img
+          mat-card-image
+          [src]="song.image || 'assets/default-song.jpg'"
+          alt="{{ song.title }}"
+        />
+        <mat-card-content>
+          <h3>{{ song.title }}</h3>
+          <p><strong>Artist:</strong> {{ song.artist }}</p>
+          <p><strong>Album:</strong> {{ song.album }}</p>
+          <p><strong>Duration:</strong> {{ song.duration }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-icon-button color="primary" (click)="playSong(i)">
+            <mat-icon>play_arrow</mat-icon>
+          </button>
+          <button mat-icon-button (click)="toggleLike(song.id)">
+            <mat-icon [color]="song.isLiked ? 'warn' : 'default'">
+              {{ song.isLiked ? 'favorite' : 'favorite_border' }}
+            </mat-icon>
+          </button>
+          <button mat-icon-button (click)="downloadSong(song.id)">
+            <mat-icon>file_download</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div> -->
+
+
+<!-- <div class="container-fluid">
+    <div class="search-container">
+        <h2>Search Results for "{{ query }}"</h2>
+
+        <div *ngIf="loading">Searching...</div>
+        <div *ngIf="errorMessage">{{ errorMessage }}</div>
+        <div *ngIf="!loading && searchResults.length === 0">
+            No results found.
+        </div>
+
+        <div *ngIf="searchResults.length > 0">
+            <div *ngFor="let song of searchResults" class="song-card">
+                <img [src]="song.imageUrl || 'assets/default-song.jpg'" alt="{{ song.title }}" />
+                <div>
+                    <h3>{{ song.title }}</h3>
+                    <p><strong>Artist:</strong> {{ song.artist }}</p>
+                    <p><strong>Album:</strong> {{ song.album }}</p>
+                    <p><strong>Duration:</strong> {{ song.duration }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
