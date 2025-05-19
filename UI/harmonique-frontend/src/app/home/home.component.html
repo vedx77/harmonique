@@ -2,31 +2,31 @@
     <div class="home-container no-select" [class.expanded]="isSidebarExpanded">
         <div class="head-container">
             <h5 class="head mb-0">Uploaded Songs</h5>
+
             <div class="head-buttons">
-                <!-- View Toggle Button -->
-                <!-- <div class="view-toggle-switch">
-                    <input type="checkbox" id="viewToggle" class="view-toggle-input" [checked]="isGridView"
-                        (change)="toggleView()" />
-                    <label for="viewToggle" class="view-toggle-label">
-                        <div class="view-toggle-circle"></div>
-                    </label>
-                </div> -->
-                <div class="view-toggle-switch">
-                    <input type="checkbox" id="viewToggle" class="view-toggle-input" [checked]="isGridView"
-                        (change)="toggleView()" />
-                    <label for="viewToggle" class="view-toggle-label">
-                        <div class="view-toggle-circle">
-                            <img [src]="isGridView ? 'assets/icons/white-list.png' : 'assets/icons/white-cards.png'"
-                                alt="view icon" class="circle-icon" />
-                        </div>
-                    </label>
-                </div>
+
                 <!-- Upload Songs Button -->
                 <div>
                     <button class="btn btn-primary" (click)="uploadInput.click()">Upload Songs</button>
                     <input type="file" #uploadInput accept="audio/*" multiple (change)="uploadSongs($event)" hidden />
                 </div>
+
+                <!-- View Toggle Button -->
+                <div class="view-toggle-switch">
+                    <input type="checkbox" id="viewToggle" class="view-toggle-input" [checked]="isGridView"
+                        (change)="toggleView()" />
+
+                    <label for="viewToggle" class="view-toggle-label">
+                        <!-- Static icons on each side -->
+                        <img src="assets/icons/white-list.png" alt="Grid View" class="toggle-icon grid-icon" />
+                        <img src="assets/icons/white-cards.png" alt="List View" class="toggle-icon list-icon" />
+
+                        <!-- Sliding transparent circle -->
+                        <div class="view-toggle-circle"></div>
+                    </label>
+                </div>
             </div>
+
         </div>
 
         <!-- Conditional Grid or List View -->

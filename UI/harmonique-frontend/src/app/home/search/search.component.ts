@@ -23,6 +23,7 @@ export class SearchComponent implements OnInit {
   errorMessage = '';
   likedSongIds: number[] = [];
   userId: number = 0;
+  isGridView: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,7 +32,7 @@ export class SearchComponent implements OnInit {
     private likeService: LikeService,
     private userService: UserService,
     private cd: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -62,6 +63,10 @@ export class SearchComponent implements OnInit {
         this.performSearch(this.query);
       }
     });
+  }
+
+  toggleView(): void {
+    this.isGridView = !this.isGridView;
   }
 
   performSearch(query: string): void {

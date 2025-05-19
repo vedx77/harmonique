@@ -1,0 +1,125 @@
+.settings-container {
+    max-width: 90%;
+    margin: 60px auto 60px auto;
+    padding: 1.5rem;
+    background-color: #18192c99;
+    border-radius: 10px;
+    min-height: 100vh;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    .back-icon {
+        cursor: pointer;
+        color: #6e45e2;
+    }
+
+    .title {
+        margin: 0;
+        color: white;
+        font-weight: 600;
+    }
+
+    .header-spacer {
+        width: 24px;
+    }
+}
+
+.settings-group {
+    background: #ffffff1a;
+    box-shadow: 0 4px 15px rgba(110, 69, 226, 0.1);
+    border-top: 3px solid #89d4cf;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    border-radius: 1rem;
+}
+
+.section-title {
+    color: #ffffff;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.view-profile-btn {
+    background-color: #6e45e2;
+    color: white;
+}
+
+.language-select {
+    border-color: #89d4cf;
+}
+
+.section-description {
+    color: #ffffffbb;
+    margin-bottom: 0;
+}
+
+.explicit-switch .switch-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    width: 100%;
+
+    .switch-text {
+        color: #ffffffbb;
+    }
+
+}
+small {
+    color: #ffffffbb;
+}
+
+.form-check-input:checked {
+    background-color: #6e45e2;
+    border-color: #6e45e2;
+}
+
+.form-select:focus {
+    border-color: #3cdfd5;
+    box-shadow: 0 0 0 0.25rem rgba(137, 167, 212, 0.354);
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.save-btn {
+    background: #6e45e2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.d-grid {
+    justify-content: center;
+}
+
+.footer-container {
+    padding: 3rem 0;
+    color: white;
+    justify-content: center;
+
+    .row {
+        justify-content: space-around;
+    }
+
+    .social-links {
+        .social-icon {
+            color: white;
+            margin-right: 1rem;
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+
+    .footer-divider {
+        margin: 2rem 0;
+        background: white;
+    }
+}

@@ -114,3 +114,165 @@
     }
   }
 }
+
+/* List view layout */
+.song-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 50px;
+
+    .song-card {
+        flex-direction: row;
+        align-items: center;
+        aspect-ratio: unset; // allow flexible height
+        padding: 10px;
+
+        .album-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 6px;
+            margin-right: 16px;
+            object-fit: cover;
+        }
+
+        mat-card-content {
+            flex-grow: 1;
+        }
+
+        mat-card-title,
+        mat-card-subtitle {
+            -webkit-line-clamp: unset;
+            line-clamp: unset;
+            white-space: normal;
+            overflow: visible;
+        }
+
+        .icon-overlay {
+            position: static;
+            opacity: 1;
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            pointer-events: auto;
+        }
+    }
+}
+
+// .view-toggle-switch {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     width: 100px;
+//     height: 30px;
+//     padding: 0;
+//     margin: 0;
+// }
+
+// .view-toggle-input {
+//     visibility: hidden;
+// }
+
+// .view-toggle-label {
+//     display: inline-block;
+//     width: 80px;
+//     height: 40px;
+//     background-color: #00000041;
+//     border-radius: 20px;
+//     cursor: pointer;
+//     transition: background-color 0.3s ease;
+//     display: flex;
+//     align-items: center;
+//     padding: 0px;
+//     box-sizing: border-box;
+// }
+
+// .view-toggle-circle {
+//     width: 40px;
+//     height: 40px;
+//     background-color: #141828;
+//     border-radius: 50%;
+//     transition: transform 0.4s ease;
+//     transform: translateX(0);
+// }
+
+// .view-toggle-input:checked+.view-toggle-label .view-toggle-circle {
+//     transform: translateX(40px);
+//     background-color: #141828;
+// }
+
+// .circle-icon {
+//     width: 24px;
+//     height: 24px;
+//     top: 8px;
+//     left: 8px;
+//     justify-content: center;
+//     position: absolute;
+//     object-fit: contain;
+//     pointer-events: none;
+// }
+
+
+.view-toggle-switch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 50px;
+  margin: 0;
+}
+
+.view-toggle-input {
+  visibility: hidden;
+}
+
+.view-toggle-label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80px;
+  height: 40px;
+  background-color: #00000041;
+  border-radius: 20px;
+  padding: 0 10px;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background-color 0.3s ease;
+  overflow: hidden;
+}
+
+.toggle-icon {
+  width: 20px;
+  height: 20px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.grid-icon {
+  position: absolute;
+  left: 10px;
+}
+
+.list-icon {
+  position: absolute;
+  right: 10px;
+}
+
+.view-toggle-circle {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.15); // translucent look
+  backdrop-filter: blur(4px); // adds a subtle glass effect
+  transition: transform 0.4s ease;
+  z-index: 0;
+}
+
+.view-toggle-input:checked + .view-toggle-label .view-toggle-circle {
+  transform: translateX(40px);
+}
