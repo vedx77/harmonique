@@ -38,6 +38,19 @@
 
 .user-profile {
     cursor: pointer;
+    position: relative;
+
+    .custom-dropdown {
+        position: absolute;
+        right: 0;
+        top: 100%; // directly below the profile image
+        z-index: 2000;
+        min-width: 180px;
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 0.5rem;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
 }
 
 .profile-pic {
@@ -95,7 +108,7 @@
 .dropdown-menu {
     border-radius: 0.5rem;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    margin-right: 50px;
+    //margin-right: 50px;
 }
 
 .navbar-profile-img {

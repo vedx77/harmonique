@@ -2,30 +2,53 @@
     <div class="home-container no-select" [class.expanded]="isSidebarExpanded">
         <div class="head-container">
             <h5 class="head mb-0">Uploaded Songs</h5>
-            <div>
-                <button class="btn btn-primary" (click)="uploadInput.click()">Upload Songs</button>
-                <input type="file" #uploadInput accept="audio/*" multiple (change)="uploadSongs($event)" hidden />
+            <div class="head-buttons">
+                <!-- View Toggle Button -->
+                <!-- <div class="view-toggle-switch">
+                    <input type="checkbox" id="viewToggle" class="view-toggle-input" [checked]="isGridView"
+                        (change)="toggleView()" />
+                    <label for="viewToggle" class="view-toggle-label">
+                        <div class="view-toggle-circle"></div>
+                    </label>
+                </div> -->
+                <div class="view-toggle-switch">
+                    <input type="checkbox" id="viewToggle" class="view-toggle-input" [checked]="isGridView"
+                        (change)="toggleView()" />
+                    <label for="viewToggle" class="view-toggle-label">
+                        <div class="view-toggle-circle">
+                            <img [src]="isGridView ? 'assets/icons/white-list.png' : 'assets/icons/white-cards.png'"
+                                alt="view icon" class="circle-icon" />
+                        </div>
+                    </label>
+                </div>
+                <!-- Upload Songs Button -->
+                <div>
+                    <button class="btn btn-primary" (click)="uploadInput.click()">Upload Songs</button>
+                    <input type="file" #uploadInput accept="audio/*" multiple (change)="uploadSongs($event)" hidden />
+                </div>
             </div>
         </div>
 
-        <div class="song-grid">
+        <!-- Conditional Grid or List View -->
+        <div [ngClass]="{ 'song-grid': isGridView, 'song-list': !isGridView }">
             <mat-card class="song-card" *ngFor="let song of backendSongs; let i = index" (click)="playBackendSong(i)">
-                <div class="icon-overlay" (click)="$event.stopPropagation()">
-                    <button mat-icon-button (click)="downloadSong(song.id)">
-                        <img [src]="'assets/insta-downloaded.png'" alt="like icon" class="icon">
-                    </button>
-
-                    <button mat-icon-button (click)="toggleLike(song.id)">
-                        <img [src]="'assets/' + (song.isLiked ? 'insta-heart-solid.png' : 'insta-heart-border.png')"
-                            alt="like icon" class="icon">
-                    </button>
-                </div>
 
                 <img mat-card-image [src]="song.image || '../assets/Mask Group.png'" alt="cover" class="album-img">
+
                 <mat-card-content>
                     <mat-card-title>{{ song.title }}</mat-card-title>
                     <mat-card-subtitle>{{ song.artist }}</mat-card-subtitle>
                 </mat-card-content>
+                <div class="icon-overlay" (click)="$event.stopPropagation()">
+                    <button mat-icon-button (click)="downloadSong(song.id)">
+                        <img [src]="'assets/icons/insta-downloaded.png'" alt="like icon" class="icon">
+                    </button>
+
+                    <button mat-icon-button (click)="toggleLike(song.id)">
+                        <img [src]="'assets/icons/' + (song.isLiked ? 'insta-heart-solid.png' : 'insta-heart-border.png')"
+                            alt="like icon" class="icon">
+                    </button>
+                </div>
             </mat-card>
         </div>
     </div>

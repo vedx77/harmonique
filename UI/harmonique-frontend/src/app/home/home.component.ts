@@ -30,6 +30,7 @@ export class HomeComponent {
   @ViewChild('sidebar') sidebar!: ElementRef;
 
   isSidebarVisible: boolean = false;
+  isGridView = true;
   crossfadeValue: number = 5;
   progressValue: number = 5;
 
@@ -206,6 +207,10 @@ export class HomeComponent {
         console.warn('Like/Unlike failed:', err);
       }
     });
+  }
+
+  toggleView(): void {
+    this.isGridView = !this.isGridView;
   }
 
   updateSongLikeStatus(songId: number, isLiked: boolean): void {

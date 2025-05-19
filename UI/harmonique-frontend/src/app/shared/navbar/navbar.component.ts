@@ -87,7 +87,7 @@ export class NavbarComponent {
     this.userService.getUserProfile().subscribe({
       next: (response) => {
         this.user = response;
-        this.userName = response.name;
+        this.userName = response.username;
         this.profilePictureUrl = this.getProfileImageUrl(response.profilePictureUrl);
       },
       error: (error) => {

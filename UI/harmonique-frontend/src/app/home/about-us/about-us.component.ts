@@ -15,22 +15,10 @@ export class AboutUsComponent {
   }
   teamMembers = [
     {
-      name: 'Alex Johnson',
-      role: 'Founder & Lead Developer',
-      bio: 'Music enthusiast with 10+ years of experience in audio engineering and software development.',
-      avatar: 'assets/images/team/alex.jpg'
-    },
-    {
-      name: 'Maria Chen',
-      role: 'UI/UX Designer',
-      bio: 'Specializes in creating intuitive music interfaces that delight users.',
-      avatar: 'assets/images/team/maria.jpg'
-    },
-    {
-      name: 'Jamal Williams',
-      role: 'Community Manager',
-      bio: 'Connects local artists with audiences and builds our music community.',
-      avatar: 'assets/images/team/jamal.jpg'
+      name: 'Vedant Shinde',
+      role: 'Full Stack Developer',
+      bio: 'Music enthusiast with an experience of 10+ years of listening to music and 3+ years of software development.',
+      avatar: 'assets/images/team/Employee.webp'
     }
   ];
 

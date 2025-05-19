@@ -47,7 +47,7 @@ app-navbar {
     left: 0;
     width: 240px;
     height: 100%;
-    background: #1c3d8a;
+    //background: #1c3d8a;
     color: #fff;
     transition: all 0.3s ease;
 }
@@ -60,6 +60,7 @@ app-navbar {
     height: 100%;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    overscroll-behavior: none; // prevents top/bottom bounce 
 }
 
 .main-content::-webkit-scrollbar {

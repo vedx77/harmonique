@@ -1,13 +1,14 @@
-.settings-page {
-    background: #3066e2;
-}
+// .settings-page {
+//     background: #3066e2;
+// }
 
 .settings-container {
+    padding: 1.5rem;
     max-width: 90%;
     margin: 60px auto 0 auto;
-    padding: 1.5rem;
     background-color: #18192c99;
     min-height: 100vh;
+    border-radius: 10px;
 }
 
 .header {
@@ -33,7 +34,7 @@
 }
 
 .settings-group {
-    background: white;
+    background: #ffffff1a;
     box-shadow: 0 4px 15px rgba(110, 69, 226, 0.1);
     border-top: 3px solid #89d4cf;
     margin-bottom: 1.5rem;
@@ -42,7 +43,7 @@
 }
 
 .section-title {
-    color: #6e45e2;
+    color: #ffffff;
     font-size: 1.25rem;
     margin-bottom: 1rem;
 }
@@ -57,7 +58,7 @@
 }
 
 .section-description {
-    color: #666;
+    color: #ffffff;
     margin-bottom: 0;
 }
 

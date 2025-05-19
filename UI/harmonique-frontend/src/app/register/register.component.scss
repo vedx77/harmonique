@@ -1,5 +1,5 @@
 .background {
-    background: linear-gradient(135deg, #7f00ff, #3a00f4, #00c9a7); 
+    background: linear-gradient(135deg, #7f00ff, #3a00f4, #00c9a7);
     min-height: 100vh;
     position: relative;
     overflow: hidden;
@@ -107,6 +107,7 @@
     min-height: 100vh;
     padding: 2rem 1rem;
 }
+
 /* Animated Music Bars */
 .music-bars {
     display: flex;
@@ -125,15 +126,43 @@
     animation: pulse 1.5s infinite ease-in-out;
 }
 
-.music-bars span:nth-child(1) { height: 8px; animation-delay: 0s; }
-.music-bars span:nth-child(2) { height: 12px; animation-delay: 0.2s; }
-.music-bars span:nth-child(3) { height: 16px; animation-delay: 0.4s; }
-.music-bars span:nth-child(4) { height: 12px; animation-delay: 0.6s; }
-.music-bars span:nth-child(5) { height: 8px; animation-delay: 0.8s; }
+.music-bars span:nth-child(1) {
+    height: 8px;
+    animation-delay: 0s;
+}
+
+.music-bars span:nth-child(2) {
+    height: 12px;
+    animation-delay: 0.2s;
+}
+
+.music-bars span:nth-child(3) {
+    height: 16px;
+    animation-delay: 0.4s;
+}
+
+.music-bars span:nth-child(4) {
+    height: 12px;
+    animation-delay: 0.6s;
+}
+
+.music-bars span:nth-child(5) {
+    height: 8px;
+    animation-delay: 0.8s;
+}
 
 @keyframes pulse {
-    0%, 100% { transform: scaleY(1); opacity: 0.7; }
-    50% { transform: scaleY(1.5); opacity: 1; }
+
+    0%,
+    100% {
+        transform: scaleY(1);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: scaleY(1.5);
+        opacity: 1;
+    }
 }
 
 .register-card {
@@ -145,6 +174,22 @@
     padding: 2rem;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.2);
+
+    input:-webkit-autofill {
+        color: white !important;
+        background: #ffffff1a;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        -webkit-box-shadow: 0 0 0px 1000px #0000008f inset !important;
+        transition: background-color 5000s ease-in-out 0s;
+    }
+
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0px 1000px #2a29298f inset !important;
+        transition: background-color 5000s ease-in-out 0s;
+        color: white !important;
+    }
 
     h2 {
         color: white;
@@ -203,7 +248,7 @@
         }
 
         .gradient-btn {
-            background: linear-gradient(135deg, #00c9a7, #3a00f4, #7f00ff); 
+            background: linear-gradient(135deg, #00c9a7, #3a00f4, #7f00ff);
             border: none;
             padding: 0.75rem;
             font-weight: 600;
@@ -325,28 +370,28 @@
 }
 
 .profile-picture {
-  object-fit: cover;
-  border: 2px solid #ccc;
+    object-fit: cover;
+    border: 2px solid #ccc;
 }
 
 .icon-left {
-  margin-left: 15px;
-  color: white;
+    margin-left: 15px;
+    color: white;
 }
 
 .password-toggle-icon {
-  position: absolute;
-  top: 50%;
-  right: 15px;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: white;
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: white;
 }
 
 .comment-icon {
-  top: 0;
-  start: 0;
-  margin-left: 15px;
-  color: white;
-  margin-top: 1rem; // matches mt-3
+    top: 0;
+    start: 0;
+    margin-left: 15px;
+    color: white;
+    margin-top: 1rem; // matches mt-3
 }
