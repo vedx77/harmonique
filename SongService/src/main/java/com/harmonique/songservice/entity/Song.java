@@ -39,6 +39,8 @@ public class Song {
 
     @Column(length = 8)
     private String duration;  // Format like "03:30", stored as string
+    
+    private String filePath;
 
     private String url;  // Song file location (local or cloud)
 

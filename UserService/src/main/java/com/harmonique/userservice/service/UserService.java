@@ -1,6 +1,9 @@
 package com.harmonique.userservice.service;
 
+import java.io.IOException;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.harmonique.userservice.payload.JwtAuthRequest;
 import com.harmonique.userservice.payload.JwtAuthResponse;
@@ -13,7 +16,7 @@ public interface UserService {
     UserResponse getUserByEmail(String email);
     
     // 1. Register New User
-    UserResponse registerUser(UserRequest userRequest);
+    //UserResponse registerUser(UserRequest userRequest);
 
     // 2. Login (JWT Auth) - Returns token inside response
     JwtAuthResponse login(JwtAuthRequest request);
@@ -21,13 +24,14 @@ public interface UserService {
     // 3. Get Own Profile (by JWT Token User)
     UserResponse getUserProfile(String username);
 
-    // 4. Role Management - Add Role
-    String addRole(String roleName);
-
-    // 5. Register New Admin
+    // 4. Register New Admin
     UserResponse registerAdmin(UserRequest request);
     
-    // 6. Get all User Details
+    // 5. Get all User Details
     List<UserResponse> getAllUsers();
 
+    // 6. Get Profile pic of user
+    UserResponse updateProfilePicture(String username, MultipartFile file) throws IOException;
+
+	UserResponse registerUser(UserRequest request) throws IOException;
 }

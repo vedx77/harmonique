@@ -41,7 +41,6 @@ public class SecurityConfig {
     // Security Filter Chain
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
@@ -49,7 +48,8 @@ public class SecurityConfig {
                 				 "/v3/api-docs/**",
                 				 "/swagger-ui/**",
                 				 "/swagger-resources/**",
-                				 "/actuator/health").permitAll()
+                				 "/actuator/health",
+                				 "/profilepic/**").permitAll()
                 .anyRequest().authenticated()
             )
             .exceptionHandling(ex -> ex
