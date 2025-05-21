@@ -1,38 +1,3 @@
-<!-- <div class="container-fluid">
-  <div class="home-container">
-    <div class="head-container">
-      <h5 class="head mb-0">Liked Songs</h5>
-    </div>
-
-    <div *ngIf="likedSongs.length > 0; else noLikes">
-      <div class="song-grid">
-        <mat-card class="song-card" *ngFor="let song of likedSongs; let i = index" (click)="playLikedSong(i)">
-          <div class="icon-overlay" (click)="$event.stopPropagation()">
-            <button mat-icon-button (click)="downloadSong(song.id)">
-              <img [src]="'assets/insta-downloaded.png'" alt="download icon" class="icon">
-            </button>
-
-            <button mat-icon-button (click)="toggleLike(song.id)">
-              <img [src]="'assets/' + (song.isLiked ? 'insta-heart-solid.png' : 'insta-heart-border.png')"
-                alt="like icon" class="icon">
-            </button>
-          </div>
-
-          <img mat-card-image [src]="song.image || '../assets/Mask Group.png'" alt="cover" class="album-img">
-          <mat-card-content>
-            <mat-card-title>{{ song.title }}</mat-card-title>
-            <mat-card-subtitle>{{ song.artist }}</mat-card-subtitle>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </div>
-
-    <ng-template #noLikes>
-      <p>No liked songs yet. Go like some!</p>
-    </ng-template>
-  </div>
-</div> -->
-
 <div class="container-fluid">
   <div class="home-container">
     <div class="head-container d-flex justify-content-between align-items-center">

@@ -79,7 +79,7 @@ export class SidebarComponent implements OnInit {
       if (!this.isExpanded) return;
       this.isExpanded = false;
       this.sidebarState.emit(false);
-    }, 300); // Small delay to prevent flickering
+    }, 300);
   }
 
   cancelCollapse() {

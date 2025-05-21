@@ -10,7 +10,7 @@ import { environment } from '../../../environments/environment.development';
 export class SearchService {
   private baseUrl = `${environment.songsApi}/search`; // Adjust as per environment
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   searchSongs(query: string): Observable<any[]> {
     const params = new HttpParams().set('query', query);

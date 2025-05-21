@@ -316,6 +316,69 @@ export class RegisterComponent {
       : { mismatch: true };
   }
 
+  // onSubmit() {
+  //   if (this.registrationForm.invalid) {
+  //     this.registrationForm.markAllAsTouched();
+  //     return;
+  //   }
+
+  //   const formValues = this.registrationForm.value;
+
+  //   // Ensure at least one of email or phoneNo is provided
+  //   if (!formValues.email && !formValues.phoneNo) {
+  //     this.errorMessage = 'Please provide either Email or Phone Number.';
+  //     return;
+  //   }
+
+  //   this.isLoading = true;
+  //   this.errorMessage = null;
+  //   this.successMessage = null;
+
+  //   const userPayload = {
+  //     firstName: formValues.firstName,
+  //     lastName: formValues.lastName || null,
+  //     username: formValues.username,
+  //     password: formValues.password,
+  //     email: formValues.email || null,
+  //     phoneNo: formValues.phoneNo || null,
+  //     profilePictureUrl: formValues.profilePictureUrl || null,
+  //     about: formValues.about || null,
+  //     location: formValues.location || null,
+  //   };
+
+  //       // Step 1: Register user
+  //   this.servicesService.register(userPayload).subscribe({
+  //     next: () => {
+  //       // Step 2: Upload profile picture if selected
+  //       if (this.selectedFile) {
+  //         this.servicesService.uploadProfilePicture(this.selectedFile).subscribe({
+  //           next: () => {
+  //             this.successMessage = 'Registration complete with profile picture!';
+  //             this.navigateToLogin();
+  //           },
+  //           error: () => {
+  //             this.successMessage = 'User registered. Failed to upload picture.';
+  //             this.navigateToLogin();
+  //           }
+  //         });
+  //       } else {
+  //         this.successMessage = 'Registration successful!';
+  //         this.navigateToLogin();
+  //       }
+  //     },
+  //     error: (error: HttpErrorResponse) => {
+  //       this.isLoading = false;
+  //       if (error.status === 400 || error.status === 409) {
+  //         this.errorMessage = error.error?.message || 'Registration failed: Bad Request';
+  //       } else if (error.status === 0) {
+  //         this.errorMessage = 'Network error: Please check your connection';
+  //       } else {
+  //         this.errorMessage = 'Registration failed. Please try again.';
+  //       }
+  //     }
+  //   });
+  // }
+
   onSubmit() {
     if (this.registrationForm.invalid) {
       this.registrationForm.markAllAsTouched();
@@ -336,56 +399,20 @@ export class RegisterComponent {
 
     const userPayload = {
       firstName: formValues.firstName,
-      lastName: formValues.lastName || null,
+      lastName: formValues.lastName || '',
       username: formValues.username,
       password: formValues.password,
-      email: formValues.email || null,
-      phoneNo: formValues.phoneNo || null,
-      profilePictureUrl: formValues.profilePictureUrl || null,
-      about: formValues.about || null,
-      location: formValues.location || null,
+      email: formValues.email || '',
+      phoneNo: formValues.phoneNo || '',
+      about: formValues.about || '',
+      location: formValues.location || '',
+      profilePicture: this.selectedFile || undefined, // <--- Pass selected file
     };
 
-    //   this.servicesService.register(userPayload).subscribe({
-    //     next: (response) => {
-    //       this.isLoading = false;
-    //       this.successMessage = 'Registration successful! Redirecting to login...';
-    //       setTimeout(() => {
-    //         this.router.navigate(['/login']);
-    //       }, 2000);
-    //     },
-    //     error: (error: HttpErrorResponse) => {
-    //       this.isLoading = false;
-    //       if (error.status === 400 || error.status === 409) {
-    //         this.errorMessage = error.error?.message || 'Registration failed: Bad Request';
-    //       } else if (error.status === 0) {
-    //         this.errorMessage = 'Network error: Please check your connection';
-    //       } else {
-    //         this.errorMessage = 'Registration failed. Please try again.';
-    //       }
-    //     }
-    //   });
-    // }
-
-    // Step 1: Register user
     this.servicesService.register(userPayload).subscribe({
       next: () => {
-        // Step 2: Upload profile picture if selected
-        if (this.selectedFile) {
-          this.servicesService.uploadProfilePicture(this.selectedFile).subscribe({
-            next: () => {
-              this.successMessage = 'Registration complete with profile picture!';
-              this.navigateToLogin();
-            },
-            error: () => {
-              this.successMessage = 'User registered. Failed to upload picture.';
-              this.navigateToLogin();
-            }
-          });
-        } else {
-          this.successMessage = 'Registration successful!';
-          this.navigateToLogin();
-        }
+        this.successMessage = 'Registration successful!';
+        this.navigateToLogin();
       },
       error: (error: HttpErrorResponse) => {
         this.isLoading = false;
@@ -399,6 +426,28 @@ export class RegisterComponent {
       }
     });
   }
+
+  //   this.servicesService.register(userPayload).subscribe({
+  //     next: (response) => {
+  //       this.isLoading = false;
+  //       this.successMessage = 'Registration successful! Redirecting to login...';
+  //       setTimeout(() => {
+  //         this.router.navigate(['/login']);
+  //       }, 2000);
+  //     },
+  //     error: (error: HttpErrorResponse) => {
+  //       this.isLoading = false;
+  //       if (error.status === 400 || error.status === 409) {
+  //         this.errorMessage = error.error?.message || 'Registration failed: Bad Request';
+  //       } else if (error.status === 0) {
+  //         this.errorMessage = 'Network error: Please check your connection';
+  //       } else {
+  //         this.errorMessage = 'Registration failed. Please try again.';
+  //       }
+  //     }
+  //   });
+  // }
+
 
   private navigateToLogin(): void {
     this.isLoading = false;

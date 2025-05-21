@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-settings',
-  imports: [CommonModule, FormsModule,RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss']
 })
@@ -20,7 +20,6 @@ export class SettingsComponent {
 
   saveSettings(): void {
     console.log('Settings saved:', this.settings);
-    // Implement further logic to persist settings
     alert('Settings saved successfully!');
   }
   goBack(): void {

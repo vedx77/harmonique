@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { routes } from '../../app.routes';
 import { NavbarRoutingModule } from './navbar-routing.module';
 
-
 @NgModule({
   declarations: [],
   imports: [

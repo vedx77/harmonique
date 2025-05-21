@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LikedSongsComponent } from './liked-songs.component';
 
 const routes: Routes = [{
-  path:'', component:LikedSongsComponent
+  path: '', component: LikedSongsComponent
 }];
 
 @NgModule({

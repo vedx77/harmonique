@@ -14,12 +14,6 @@ export class ServicesService {
     return this.http.post<any>(url, data);
   }
 
-  // register(data: { name: string, email: string, password: string }): Observable<any> {
-  //   const url = environment.register + '/register';
-  //   // Here, we manually add about: '' (empty string) for now
-  //   return this.http.post<any>(url, { ...data, about: '' });
-  // }
-
   register(data: {
     firstName: string;
     lastName?: string;
@@ -27,18 +21,60 @@ export class ServicesService {
     password: string;
     email?: string;
     phoneNo?: string;
-    profilePictureUrl?: string;
+    profilePicture?: File;
     about?: string;
     location?: string;
   }): Observable<any> {
     const url = environment.register + '/register';
-    return this.http.post<any>(url, data);
+
+    const formData = new FormData();
+    formData.append('firstName', data.firstName);
+    formData.append('lastName', data.lastName || '');
+    formData.append('username', data.username);
+    formData.append('password', data.password);
+    formData.append('email', data.email || '');
+    formData.append('phoneNo', data.phoneNo || '');
+    formData.append('about', data.about || '');
+    formData.append('location', data.location || '');
+
+    if (data.profilePicture) {
+      formData.append('file', data.profilePicture);
+    }
+    return this.http.post<any>(url, formData);
+  }
+
+  updateProfile(data: {
+    firstName: string;
+    lastName?: string;
+    username: string;
+    email?: string;
+    phoneNo?: string;
+    about?: string;
+    location?: string;
+    profilePicture?: File;
+  }): Observable<any> {
+    const url = environment.userBaseUrl + '/profile';
+
+    const formData = new FormData();
+    formData.append('firstName', data.firstName);
+    formData.append('lastName', data.lastName || '');
+    formData.append('username', data.username);
+    formData.append('email', data.email || '');
+    formData.append('phoneNo', data.phoneNo || '');
+    formData.append('about', data.about || '');
+    formData.append('location', data.location || '');
+
+    if (data.profilePicture) {
+      formData.append('file', data.profilePicture);
+    }
+
+    return this.http.put<any>(url, formData);
   }
 
   uploadProfilePicture(file: File): Observable<any> {
     const formData = new FormData();
     formData.append('file', file);
-    const url = environment.profilePictureUpload; // Add this to your environment
+    const url = environment.profilePictureUpload;
     return this.http.put<any>(url, formData);
   }
 }

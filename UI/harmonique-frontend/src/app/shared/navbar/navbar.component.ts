@@ -1,7 +1,7 @@
 import { Component, HostListener, Inject, PLATFORM_ID, ViewChild } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { UserService } from '../../core/services/user.service';
 import { environment } from '../../../environments/environment.development';
 import { SearchService } from '../../core/services/search.service';
@@ -18,7 +18,6 @@ export class NavbarComponent {
   user: any = {};
   searchResults: any[] = [];
 
-  // @ViewChild('menu') menu!: Menu;
   menuItems = [
     { label: 'Profile', icon: 'bi bi-person-circle', },
     { label: 'Settings', icon: 'bi bi-gear' },
@@ -101,6 +100,6 @@ export class NavbarComponent {
   }
 
   onImageError(event: Event) {
-    (event.target as HTMLImageElement).src = 'assets/default-profile.png';
+    (event.target as HTMLImageElement).src = 'assets/icons/default-profile.png';
   }
 }

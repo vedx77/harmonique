@@ -62,21 +62,6 @@ export class LoginComponent {
     this.isLoading = true;
     this.errorMessage = null;
 
-    // this.servicesService.login(this.loginForm.value).subscribe({
-    //   next: (response: any) => {
-    //     console.log('Login successful', response);
-    //     this.authService.storeToken(response.token);
-
-    //     if (response.user) {
-    //       this.authService.storeUserData(response.user);
-    //     }
-
-    //     this.lockIconClass = 'fa-solid fa-unlock';
-
-    //     this.isLoading = false;
-    //     this.router.navigate(['/home']);
-    //   },
-
     this.servicesService.login(this.loginForm.value).subscribe({
       next: (response) => {
         console.log('Login successful', response);
@@ -91,7 +76,7 @@ export class LoginComponent {
         // ✅ Navigate to home or wherever
         this.router.navigate(['/home']);
       },
-      
+
       error: (error: HttpErrorResponse) => {
         this.isLoading = false;
         console.error('Login failed:', error);
