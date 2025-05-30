@@ -38,10 +38,12 @@ public class SongServiceImpl implements SongService {
     @Value("${song.access.url}")
     private String accessUrl;
 
-    // ===========================
-    // CRUD OPERATIONS
-    // ===========================
-
+    /**
+     * Creates a new song entry in the database.
+     *
+     * @param songRequest the request payload containing song metadata
+     * @return the saved song response
+     */
     @Override
     public SongResponse createSong(SongRequest songRequest) {
         String uploadedBy = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -52,6 +54,13 @@ public class SongServiceImpl implements SongService {
         return mapToResponse(savedSong);
     }
 
+    /**
+     * Updates an existing song.
+     *
+     * @param songRequest the new metadata
+     * @param songId      the ID of the song to update
+     * @return the updated song response
+     */
     @Override
     public SongResponse updateSong(SongRequest songRequest, Long songId) {
         Song song = songRepository.findById(songId)
@@ -72,6 +81,11 @@ public class SongServiceImpl implements SongService {
         return mapToResponse(updatedSong);
     }
 
+    /**
+     * Deletes a song by its ID.
+     *
+     * @param songId the ID of the song to delete
+     */
     @Override
     public void deleteSong(Long songId) {
         Song song = songRepository.findById(songId)
@@ -83,6 +97,12 @@ public class SongServiceImpl implements SongService {
         log.info("🗑️ Song deleted | ID: {}, Title: '{}'", song.getId(), song.getTitle());
     }
 
+    /**
+     * Retrieves a song by its ID.
+     *
+     * @param songId the ID of the song
+     * @return the corresponding song response
+     */
     @Override
     public SongResponse getSongById(Long songId) {
         Song song = songRepository.findById(songId)
@@ -94,6 +114,11 @@ public class SongServiceImpl implements SongService {
         return mapToResponse(song);
     }
 
+    /**
+     * Retrieves all songs from the database.
+     *
+     * @return a list of all song responses
+     */
     @Override
     public List<SongResponse> getAllSongs() {
         List<Song> songs = songRepository.findAll();
@@ -101,13 +126,22 @@ public class SongServiceImpl implements SongService {
         return songs.stream().map(this::mapToResponse).collect(Collectors.toList());
     }
 
-    // ===========================
-    // FILE UPLOADS
-    // ===========================
-
+    /**
+     * Uploads a song file with manually provided metadata.
+     *
+     * @param file        the song file
+     * @param title       the song title
+     * @param artist      the song artist
+     * @param album       the album name
+     * @param genre       the genre
+     * @param language    the language
+     * @param description the description
+     * @param uploadedBy  the uploader's username
+     * @return the saved song response
+     */
     @Override
     public SongResponse uploadWithManualMetadata(MultipartFile file, String title, String artist,
-                                                 String album, String genre, String language, 
+                                                 String album, String genre, String language,
                                                  String description, String uploadedBy) {
         try {
             Path filePath = saveFile(file);
@@ -122,7 +156,7 @@ public class SongServiceImpl implements SongService {
             request.setDescription(description);
             request.setUrl(fileUrl);
             request.setDuration(extractDuration(filePath.toFile()));
-            request.setUploadedBy(uploadedBy);  // Ensure the uploader is set here
+            request.setUploadedBy(uploadedBy);
 
             log.info("📤 Uploading song with manual metadata | Title: '{}', Artist: '{}'", title, artist);
             return createSong(request);
@@ -133,7 +167,13 @@ public class SongServiceImpl implements SongService {
         }
     }
 
-
+    /**
+     * Uploads a song file and extracts metadata automatically from it.
+     *
+     * @param file       the song file
+     * @param uploadedBy the uploader's username
+     * @return the saved song response
+     */
     @Override
     public SongResponse uploadWithAutoMetadata(MultipartFile file, String uploadedBy) {
         try {
@@ -142,9 +182,8 @@ public class SongServiceImpl implements SongService {
 
             SongRequest request = extractMetadataFromFile(filePath.toFile(), fileUrl);
             request.setUploadedBy(uploadedBy);
-            
             request.setFilePath(filePath.toString());
-            
+
             log.info("📥 Uploading song with auto-extracted metadata | File: '{}'", file.getOriginalFilename());
             return createSong(request);
 
@@ -154,44 +193,17 @@ public class SongServiceImpl implements SongService {
         }
     }
 
-    // ===========================
-    // FILE DOWNLOADS
-    // ===========================    
-    
-//    @Override
-//    public byte[] downloadSongFile(Long songId) {
-//        Song song = songRepository.findById(songId)
-//                .orElseThrow(() -> new ResourceNotFoundException("Song not found with ID: " + songId));
-//        Path filePath = Paths.get(song.getUrl());  // Assuming `song.getUrl()` holds the file path
-//        try {
-//            return Files.readAllBytes(filePath);
-//        } catch (IOException e) {
-//            log.error("❌ Failed to read file | Error: {}", e.getMessage(), e);
-//            throw new RuntimeException("Failed to download file: " + e.getMessage());
-//        }
-//    }
-    
-//    @Override
-//    public byte[] downloadSongFile(Long songId) {
-//        Song song = songRepository.findById(songId)
-//                .orElseThrow(() -> new ResourceNotFoundException("Song not found with ID: " + songId));
-//
-//        Path filePath = Paths.get(song.getFilePath()); // ✅ Use actual server-side path
-//
-//        try {
-//            return Files.readAllBytes(filePath);
-//        } catch (IOException e) {
-//            log.error("❌ Failed to read file | Error: {}", e.getMessage(), e);
-//            throw new RuntimeException("Failed to download file: " + e.getMessage());
-//        }
-//    }
-    
+    /**
+     * Downloads the song file for the given song ID.
+     *
+     * @param songId the ID of the song
+     * @return a byte array of the file content
+     */
     @Override
     public byte[] downloadSongFile(Long songId) {
         Song song = songRepository.findById(songId)
                 .orElseThrow(() -> new ResourceNotFoundException("Song not found with ID: " + songId));
 
-        // ✅ Use actual file path from DB
         String filePathStr = song.getFilePath();
         if (filePathStr == null || filePathStr.isBlank()) {
             throw new RuntimeException("No file path found for song ID: " + songId);
@@ -206,9 +218,12 @@ public class SongServiceImpl implements SongService {
         }
     }
 
-    // ===========================
-    // SONG SEARCH
-    // ===========================
+    /**
+     * Searches for songs matching the provided keyword in title, artist, or album.
+     *
+     * @param keyword the search keyword
+     * @return a list of matching songs
+     */
     @Override
     public List<SongResponse> searchSongs(String keyword) {
         List<Song> songs = songRepository
@@ -225,6 +240,13 @@ public class SongServiceImpl implements SongService {
     // PRIVATE HELPERS
     // ===========================
 
+    /**
+     * Saves the uploaded file to the local file system.
+     *
+     * @param file the file to save
+     * @return the path of the saved file
+     * @throws IOException if file saving fails
+     */
     private Path saveFile(MultipartFile file) throws IOException {
         Path uploadPath = Paths.get(uploadDir);
         if (!Files.exists(uploadPath)) {
@@ -241,6 +263,12 @@ public class SongServiceImpl implements SongService {
         return filePath;
     }
 
+    /**
+     * Extracts the duration of a song in seconds.
+     *
+     * @param file the audio file
+     * @return duration as a string (e.g., "320 sec")
+     */
     private String extractDuration(File file) {
         try {
             AudioFile audioFile = AudioFileIO.read(file);
@@ -254,6 +282,13 @@ public class SongServiceImpl implements SongService {
         }
     }
 
+    /**
+     * Extracts metadata from the audio file using JAudioTagger.
+     *
+     * @param songFile the audio file
+     * @param url      the file's URL
+     * @return a populated SongRequest with extracted metadata
+     */
     private SongRequest extractMetadataFromFile(File songFile, String url) {
         SongRequest request = new SongRequest();
 
@@ -267,15 +302,14 @@ public class SongServiceImpl implements SongService {
                 request.setAlbum(getSafeTag(tag, "TALB"));
                 request.setGenre(getSafeTag(tag, "TCON"));
 
-                // 🖼️ Extract embedded image (album art)
                 var artwork = tag.getFirstArtwork();
                 if (artwork != null) {
                     byte[] imageData = artwork.getBinaryData();
                     String imageFileName = System.currentTimeMillis() + "_cover.jpg";
                     Path imagePath = Paths.get(uploadDir).resolve(imageFileName);
-                    Files.write(imagePath, imageData);  // Save image file
+                    Files.write(imagePath, imageData);
                     String imageUrl = accessUrl + imageFileName;
-                    request.setImageUrl(imageUrl);  // ✅ Correctly setting image URL
+                    request.setImageUrl(imageUrl);
                 }
 
                 log.info("📝 Metadata extracted | Title: '{}', Artist: '{}', Album: '{}', Genre: '{}'",
@@ -292,6 +326,13 @@ public class SongServiceImpl implements SongService {
         return request;
     }
 
+    /**
+     * Safely extracts a metadata tag by its key.
+     *
+     * @param tag the audio tag
+     * @param key the tag key
+     * @return the tag value, or an empty string if not found
+     */
     private String getSafeTag(Tag tag, String key) {
         try {
             String value = tag.getFirst(key);
@@ -302,6 +343,12 @@ public class SongServiceImpl implements SongService {
         }
     }
 
+    /**
+     * Maps a Song entity to a SongResponse DTO.
+     *
+     * @param song the Song entity
+     * @return the SongResponse DTO
+     */
     private SongResponse mapToResponse(Song song) {
         return SongResponse.builder()
                 .id(song.getId())
@@ -319,7 +366,12 @@ public class SongServiceImpl implements SongService {
                 .build();
     }
 
-
+    /**
+     * Maps a SongRequest DTO to a Song entity.
+     *
+     * @param request the SongRequest DTO
+     * @return the Song entity
+     */
     private Song mapToEntity(SongRequest request) {
         return Song.builder()
                 .title(request.getTitle())
