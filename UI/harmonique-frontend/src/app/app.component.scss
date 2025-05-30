@@ -7,7 +7,7 @@
 .app-layout {
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 90px); // subtract footer height
+    height: calc(100vh - 90px);
 }
 
 app-navbar {
@@ -23,8 +23,8 @@ app-navbar {
 .app-content {
     display: flex;
     flex: 1;
-    margin-top: 60px; // push below navbar
-    height: calc(100vh - 60px - 90px); // subtract navbar + footer
+    margin-top: 60px;
+    height: calc(100vh - 60px - 90px);
     overflow: hidden;
 }
 
@@ -47,7 +47,6 @@ app-navbar {
     left: 0;
     width: 240px;
     height: 100%;
-    background: #1c3d8a;
     color: #fff;
     transition: all 0.3s ease;
 }
@@ -60,6 +59,7 @@ app-navbar {
     height: 100%;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    overscroll-behavior: none;
 }
 
 .main-content::-webkit-scrollbar {

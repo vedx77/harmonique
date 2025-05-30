@@ -5,8 +5,6 @@
     <!-- Search Bar -->
     <div class="search-bar mx-auto position-relative">
         <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ps-2 text-muted"></i>
-        <!-- <input type="text" [(ngModel)]="searchQuery" class="form-control ps-5 rounded-pill"
-            placeholder="Search for your favourites..." /> -->
         <input type="text" [(ngModel)]="searchQuery" (keydown.enter)="handleSearch()"
             class="form-control ps-5 rounded-pill" placeholder="Search for your favourites..." />
 
@@ -14,9 +12,6 @@
 
     <!-- User Actions -->
     <div class="user-actions d-flex align-items-center gap-3">
-        <!-- <div class="notifications position-relative">
-            <i class="bi bi-bell fs-5 text-white" data-bs-toggle="modal" data-bs-target="#notificationsModal"></i>
-        </div> -->
 
         <!-- User Dropdown -->
         <div class="dropdown user-profile" (click)="toggleDropdown($event)">
@@ -27,11 +22,10 @@
                 </div>
             </div>
 
-            <ul class="dropdown-menu dropdown-menu-end mt-2" [class.show]="dropdownOpen">
+            <ul class="dropdown-menu mt-2 custom-dropdown" [class.show]="dropdownOpen">
                 <li>
                     <a class="dropdown-item" routerLink="/profile"><i class="bi bi-person me-2"></i>Profile</a>
                 </li>
-                <!-- <li><a class="dropdown-item" routerLink="/roles"><i class="bi bi-people me-2"></i>Roles & Permissions</a></li> -->
                 <li>
                     <a class="dropdown-item" routerLink="/settings"><i class="bi bi-gear me-2"></i>Settings</a>
                 </li>

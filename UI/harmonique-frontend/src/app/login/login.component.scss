@@ -117,6 +117,22 @@
     }
 }
 
+input:-webkit-autofill {
+    color: white !important;
+    background: #ffffff1a;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    -webkit-box-shadow: 0 0 0px 1000px #0000008f inset !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0px 1000px #2a29298f inset !important;
+    transition: background-color 5000s ease-in-out 0s;
+    color: white !important;
+}
+
 /* Login Container */
 .login-container {
     background: #121826;
@@ -197,7 +213,7 @@
 
 /* Form Inputs */
 .login-container form .form-control {
-    background: rgba(255, 255, 255, 0.1);
+    background: #ffffff1a;
     border: 1px solid rgba(255, 255, 255, 0.3);
     color: white;
     padding: 12px 15px;
@@ -236,7 +252,7 @@
 /* Buttons */
 .login-container form .btn,
 .gradient-btn {
-    background: linear-gradient(135deg, #00c9a7, #3a00f4, #7f00ff); 
+    background: linear-gradient(135deg, #00c9a7, #3a00f4, #7f00ff);
     border: none;
     padding: 12px;
     font-weight: 600;

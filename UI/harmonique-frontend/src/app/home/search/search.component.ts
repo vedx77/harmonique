@@ -23,6 +23,7 @@ export class SearchComponent implements OnInit {
   errorMessage = '';
   likedSongIds: number[] = [];
   userId: number = 0;
+  isGridView: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,7 +32,7 @@ export class SearchComponent implements OnInit {
     private likeService: LikeService,
     private userService: UserService,
     private cd: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -62,6 +63,10 @@ export class SearchComponent implements OnInit {
         this.performSearch(this.query);
       }
     });
+  }
+
+  toggleView(): void {
+    this.isGridView = !this.isGridView;
   }
 
   performSearch(query: string): void {
@@ -125,53 +130,3 @@ export class SearchComponent implements OnInit {
     window.open(downloadUrl, '_blank');
   }
 }
-
-
-// import { Component, OnInit } from '@angular/core';
-// import { ActivatedRoute } from '@angular/router';
-// import { CommonModule } from '@angular/common';
-// import { SearchService } from '../services/search.service';
-
-// @Component({
-//   selector: 'app-search',
-//   standalone: true,
-//   imports: [CommonModule],
-//   templateUrl: './search.component.html',
-//   styleUrls: ['./search.component.scss']
-// })
-// export class SearchComponent implements OnInit {
-//   query: string = '';
-//   searchResults: any[] = [];
-//   loading = false;
-//   errorMessage = '';
-
-//   constructor(
-//     private route: ActivatedRoute,
-//     private searchService: SearchService
-//   ) {}
-
-//   ngOnInit(): void {
-//     this.route.queryParams.subscribe(params => {
-//       this.query = params['q'] || '';
-//       if (this.query.trim()) {
-//         this.performSearch(this.query);
-//       }
-//     });
-//   }
-
-//   performSearch(query: string): void {
-//     this.loading = true;
-//     this.errorMessage = '';
-//     this.searchService.searchSongs(query).subscribe({
-//       next: (results) => {
-//         this.searchResults = results;
-//         this.loading = false;
-//       },
-//       error: (err) => {
-//         this.errorMessage = 'Something went wrong while searching.';
-//         this.loading = false;
-//         console.error(err);
-//       }
-//     });
-//   }
-// }

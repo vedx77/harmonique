@@ -1,29 +1,4 @@
-:root {
-  --primary-color: #1DB954; // Spotify-like green
-  --secondary-color: #191414; // Dark background
-  --text-color: #333333;
-  --light-gray: #f5f5f5;
-  --border-color: #e1e1e1;
-
-  --harmonique-purple: #6e45e2;
-  --harmonique-teal: #89d4cf;
-  --box-shadow: 0 4px 15px rgba(110, 69, 226, 0.1);
-}
-
-.container-fluid {
-  background: linear-gradient(135deg, #7f00ff, #3a00f4, #00c9a7);
-  height: 200vh;
-  padding: 0;
-  margin-top: 3rem;
-}
-
-.navbar-brand {
-  font-weight: 600;
-  color: var(--primary-color) !important;
-}
-
 .faq-header {
-  background-color: var(--light-gray);
   padding: 3rem 0;
   margin-bottom: 2rem;
   border-radius: 0 0 10px 10px;
@@ -40,16 +15,16 @@
   }
 }
 
-main.container {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+.row {
+  display: flex;
+  justify-content: space-between;
 }
 
 .faq-section {
   margin-bottom: 3rem;
 
   h2 {
-    color: var(--harmonique-purple);
+    color: #ffffffee;
     border-bottom: 2px solid var(--harmonique-teal);
     padding-bottom: 0.5rem;
     margin-bottom: 1.5rem;
@@ -62,7 +37,8 @@ main.container {
 }
 
 .faq-item {
-  background-color: white;
+  background-color: #ffffff1a;
+  color: #ffffffbb;
   padding: 1.5rem;
   border-radius: 1rem;
   margin-bottom: 1.5rem;
@@ -82,7 +58,7 @@ main.container {
 }
 
 .note-box {
-  background-color: white;
+  background-color: #ffffffbb;
   padding: 1.5rem;
   border-radius: 1rem;
   margin: 2rem 0;
@@ -95,7 +71,6 @@ main.container {
 }
 
 footer {
-  background: linear-gradient(135deg, #6e45e2 0%, #89d4cf 100%);
   color: white;
   padding: 3rem 0;
   margin-top: 3rem;
@@ -112,15 +87,6 @@ footer {
     text-decoration: none;
   }
 
-  ul {
-    padding-left: 0;
-    list-style: none;
-
-    li {
-      margin-bottom: 0.5rem;
-    }
-  }
-
   .social-links a {
     margin-right: 1rem;
     color: white;
@@ -130,24 +96,9 @@ footer {
     }
   }
 
-  hr {
-    background-color: white;
-    margin: 2rem 0;
-  }
-
   .text-center {
     p {
       margin: 0;
     }
-  }
-}
-
-.btn-primary {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
-
-  &:hover {
-    background-color: #1ed760;
-    border-color: #1ed760;
   }
 }

@@ -1,12 +1,9 @@
-.settings-page {
-    background: #3066e2;
-}
-
 .settings-container {
     max-width: 90%;
-    margin: 60px auto 0 auto;
+    margin: 60px auto 60px auto;
     padding: 1.5rem;
     background-color: #18192c99;
+    border-radius: 10px;
     min-height: 100vh;
 }
 
@@ -33,7 +30,7 @@
 }
 
 .settings-group {
-    background: white;
+    background: #ffffff1a;
     box-shadow: 0 4px 15px rgba(110, 69, 226, 0.1);
     border-top: 3px solid #89d4cf;
     margin-bottom: 1.5rem;
@@ -42,7 +39,7 @@
 }
 
 .section-title {
-    color: #6e45e2;
+    color: #ffffff;
     font-size: 1.25rem;
     margin-bottom: 1rem;
 }
@@ -57,19 +54,24 @@
 }
 
 .section-description {
-    color: #666;
+    color: #ffffffbb;
     margin-bottom: 0;
 }
 
 .explicit-switch .switch-label {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: start;
     width: 100%;
 
     .switch-text {
-        color: #333;
+        color: #ffffffbb;
     }
+
+}
+
+small {
+    color: #ffffffbb;
 }
 
 .form-check-input:checked {
@@ -78,8 +80,8 @@
 }
 
 .form-select:focus {
-    border-color: #89d4cf;
-    box-shadow: 0 0 0 0.25rem rgba(137, 212, 207, 0.25);
+    border-color: #3cdfd5;
+    box-shadow: 0 0 0 0.25rem rgba(137, 167, 212, 0.354);
 }
 
 .btn:hover {
@@ -94,15 +96,24 @@
     margin-top: 1rem;
 }
 
+.d-grid {
+    justify-content: center;
+}
+
 .footer-container {
     padding: 3rem 0;
     color: white;
     justify-content: center;
 
+    .row {
+        justify-content: space-around;
+    }
+
     .social-links {
         .social-icon {
             color: white;
             margin-right: 1rem;
+
             &:last-child {
                 margin-right: 0;
             }

@@ -4,7 +4,7 @@ import { LikedSongsRoutingModule } from './liked-songs-routing.module';
 import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { LikedSongsComponent } from './liked-songs.component'; // ✅ Import your component
+import { LikedSongsComponent } from './liked-songs.component';
 
 @NgModule({
   declarations: [],

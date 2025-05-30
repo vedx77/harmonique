@@ -5,5 +5,7 @@ export const environment = {
     songsApi: "http://localhost:8080/api/songs",
     uploadsBaseUrl: "http://localhost:8080/profilepic/",
     profilePictureUpload: "http://localhost:8080/api/user/profile/picture",
-    likeApi: "http://localhost:8083/api/likes"
+    likeApi: "http://localhost:8083/api/likes",
+    userBaseUrl: "http://localhost:8080/api/user",
+    userProfile: "http://localhost:8080/api/user/profile"
 };

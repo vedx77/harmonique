@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { LoginRoutingModule } from './login-routing.module';
 import { RouterModule } from '@angular/router';
 import { routes } from '../app.routes';
-import { HttpClientModule } from '@angular/common/http'; 
-
 
 @NgModule({
   declarations: [],

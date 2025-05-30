@@ -8,25 +8,19 @@
 
 .scroll-container {
     padding-bottom: 60px;
-    /* Add space at the bottom to prevent overlap with the fixed footer */
 }
 
 .bottom-player {
     z-index: 9999;
-    /* Ensure it appears above other content */
     position: fixed;
-    /* Fix the bottom player to the bottom */
     bottom: 0;
-    /* Position it at the bottom */
     left: 0;
     right: 0;
     background-color: #333;
-    /* Optional: You can give a background color for better visibility */
 }
 
 .album-img {
     width: 100%;
-    /* Ensure image doesn't overflow */
     height: auto;
     display: block;
 }
@@ -45,10 +39,8 @@
 }
 
 .bottom-player {
-    //background: #0d1117;
     background: #222831;
     height: 90px;
-    // border-top: 1px solid #222;
     color: white;
 
     .cover-img {

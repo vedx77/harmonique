@@ -27,8 +27,11 @@ export class AuthService {
     }
   }
 
-  getToken() {
-    return this.token;
+  getToken(): string | null {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('token');
+    }
+    return null;
   }
 
   logout() {

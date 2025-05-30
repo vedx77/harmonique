@@ -1,79 +1,38 @@
-<!-- <div class="container-fluid">
-  <div *ngIf="likedSongs.length > 0; else noLikes">
-    <div *ngFor="let song of likedSongs" class="song-card">
-      <mat-card>
-        <mat-card-title>{{ song.title }}</mat-card-title>
-        <mat-card-subtitle>{{ song.artist }}</mat-card-subtitle>
-        <audio [src]="song.audioUrl" controls></audio>
-      </mat-card>
-    </div>
-  </div>
-
-  <ng-template #noLikes>
-    <p>No liked songs yet. Go like some!</p>
-  </ng-template>
-</div> -->
-
-
-<!-- <div class="like-container" [class.expanded]="isSidebarExpanded">
-  <div class="container-fluid">
-    <div class="head-container">
+<div class="container-fluid">
+  <div class="home-container">
+    <div class="head-container d-flex justify-content-between align-items-center">
       <h5 class="head mb-0">Liked Songs</h5>
-    </div>
 
-    <div *ngIf="likedSongs.length > 0; else noLikes">
-      <div class="song-grid">
-        <mat-card class="song-card" *ngFor="let song of likedSongs"; >
-          <div class="icon-overlay" (click)="$event.stopPropagation()">
-            <button mat-icon-button (click)="downloadSong(song.id)">
-              <img [src]="'assets/insta-downloaded.png'" alt="download icon" class="icon">
-            </button>
-
-            <button mat-icon-button (click)="toggleLike(song.id)">
-              <img [src]="'assets/' + (song.isLiked ? 'insta-heart-solid.png' : 'insta-heart-border.png')"
-                alt="like icon" class="icon">
-            </button>
-          </div>
-          <img mat-card-image [src]="song.image || '../assets/Mask Group.png'" alt="cover" class="album-img">
-          <mat-card-content>
-            <mat-card-title>{{ song.title }}</mat-card-title>
-            <mat-card-subtitle>{{ song.artist }}</mat-card-subtitle>
-          </mat-card-content>
-        </mat-card>
+      <!-- View Toggle Button -->
+      <div class="view-toggle-switch">
+        <input type="checkbox" id="likedViewToggle" class="view-toggle-input" [checked]="isGridView"
+          (change)="toggleView()" />
+        <label for="likedViewToggle" class="view-toggle-label">
+          <img src="assets/icons/white-list.png" alt="Grid View" class="toggle-icon grid-icon" />
+          <img src="assets/icons/white-cards.png" alt="List View" class="toggle-icon list-icon" />
+          <div class="view-toggle-circle"></div>
+        </label>
       </div>
     </div>
 
-    <ng-template #noLikes>
-      <p>No liked songs yet. Go like some!</p>
-    </ng-template>
-  </div>
-</div> -->
-
-<div class="container-fluid">
-  <div class="home-container">
-    <div class="head-container">
-      <h5 class="head mb-0">Liked Songs</h5>
-    </div>
-
     <div *ngIf="likedSongs.length > 0; else noLikes">
-      <div class="song-grid">
+      <!-- Conditional layout -->
+      <div [ngClass]="isGridView ? 'song-grid' : 'song-list'">
         <mat-card class="song-card" *ngFor="let song of likedSongs; let i = index" (click)="playLikedSong(i)">
-          <div class="icon-overlay" (click)="$event.stopPropagation()">
-            <button mat-icon-button (click)="downloadSong(song.id)">
-              <img [src]="'assets/insta-downloaded.png'" alt="download icon" class="icon">
-            </button>
-
-            <button mat-icon-button (click)="toggleLike(song.id)">
-              <img [src]="'assets/' + (song.isLiked ? 'insta-heart-solid.png' : 'insta-heart-border.png')" 
-                   alt="like icon" class="icon">
-            </button>
-          </div>
-
-          <img mat-card-image [src]="song.image || '../assets/Mask Group.png'" alt="cover" class="album-img">
+          <img mat-card-image [src]="song.image || '../assets/Mask Group.png'" alt="cover" class="album-img" />
           <mat-card-content>
             <mat-card-title>{{ song.title }}</mat-card-title>
             <mat-card-subtitle>{{ song.artist }}</mat-card-subtitle>
           </mat-card-content>
+          <div class="icon-overlay" (click)="$event.stopPropagation()">
+            <button mat-icon-button (click)="downloadSong(song.id)">
+              <img [src]="'assets/icons/insta-downloaded.png'" alt="like icon" class="icon">
+            </button>
+            <button mat-icon-button (click)="toggleLike(song.id)">
+              <img [src]="'assets/icons/' + (song.isLiked ? 'insta-heart-solid.png' : 'insta-heart-border.png')"
+                alt="like icon" class="icon">
+            </button>
+          </div>
         </mat-card>
       </div>
     </div>

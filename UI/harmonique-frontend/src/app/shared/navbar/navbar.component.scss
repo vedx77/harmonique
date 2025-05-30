@@ -1,5 +1,4 @@
 .navbar {
-    //background: #0d1117;
     background: #222831;
     height: 60px;
     display: flex;
@@ -17,7 +16,6 @@
     color: transparent;
     background-clip: text;
     -webkit-background-clip: text;
-    /* Safari */
 }
 
 .toggle-btn i {
@@ -31,13 +29,21 @@
     align-items: center;
 }
 
-// .notifications .bell {
-//     width: 22px;
-//     cursor: pointer;
-// }
-
 .user-profile {
     cursor: pointer;
+    position: relative;
+
+    .custom-dropdown {
+        position: absolute;
+        right: 0;
+        top: 100%;
+        z-index: 2000;
+        min-width: 180px;
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 0.5rem;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
 }
 
 .profile-pic {
@@ -60,11 +66,6 @@
 
 .search-bar {
     width: 400px;
-
-    // input {
-    //     padding-left: 2rem;
-    //     border-radius: 50px;
-    // }
 
     .search-icon {
         position: absolute;
@@ -95,15 +96,14 @@
 .dropdown-menu {
     border-radius: 0.5rem;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    margin-right: 50px;
 }
 
 .navbar-profile-img {
-    width: 30px; // or any desired size like 32px, 50px
+    width: 30px;
     height: 30px;
     margin-right: 10px;
-    border-radius: 50%; // makes it circular
-    object-fit: cover; // ensures the image stays within bounds
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .cursor-pointer {

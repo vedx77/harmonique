@@ -1,7 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../environments/environment.development';
+import { AuthService } from '../../core/services/auth.service';
+import { UserService } from '../../core/services/user.service';
+import { ServicesService } from '../../core/services/services.service';
 
 @Component({
   selector: 'app-profile',
@@ -9,88 +13,84 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./profile.component.scss'],
   imports: [CommonModule, FormsModule]
 })
-export class ProfileComponent {
-  // Default active tab
-  activeTab: string = 'profile';
+export class ProfileComponent implements OnInit {
+  user: any = {};
+  selectedFile: File | null = null;
+  uploadsBaseUrl = environment.uploadsBaseUrl;
+  public environment = environment;
 
-  // Form model for profile, privacy, and preferences
-  profileForm = {
-    firstName: 'Sarah',
-    lastName: 'Johnson',
-    username: 'sarahj',
-    bio: 'Music enthusiast • Playlist curator • Local music supporter',
-    location: 'New York, USA',
-    joinDate: 'June 2021',
-    privacySettings: {
-      visibility: 'public', // 'public' | 'followers' | 'private'
-      shareListening: true,
-      sharePlaylists: true,
-      shareFollowers: false
-    },
-    preferences: {
-      autoplay: true,
-      explicitContent: false,
-      audioQuality: 'medium', // 'low' | 'medium' | 'high'
-      theme: 'light',         // 'light' | 'dark' | 'system'
-      accentColor: '#6e45e2'
+  constructor(
+    private location: Location,
+    private authService: AuthService,
+    private userService: UserService,
+    private servicesService: ServicesService
+  ) { }
+
+  ngOnInit(): void {
+    this.loadUserProfile();
+  }
+
+  loadUserProfile(): void {
+    this.userService.getUserProfile().subscribe({
+      next: (res) => {
+        this.user = res;
+      },
+      error: (err) => {
+        console.error('Failed to load user profile:', err);
+      }
+    });
+  }
+
+  // Handle avatar file selection
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.user.profilePictureUrl = reader.result as string;
+      };
+      reader.readAsDataURL(file);
     }
-  };
-
-  constructor(private location: Location) { }
-
-  // Change active tab
-  setActiveTab(tab: string): void {
-    this.activeTab = tab;
   }
 
-  // Check if tab is currently active
-  isTabActive(tab: string): boolean {
-    return this.activeTab === tab;
+  triggerFileUpload(): void {
+    const input = document.getElementById('avatarUpload') as HTMLElement;
+    input.click();
   }
 
-  // Navigate back
+  onSubmit(): void {
+    const updatedData: any = {
+      firstName: this.user.firstName,
+      lastName: this.user.lastName,
+      username: this.user.username,
+      email: this.user.email,
+      phoneNo: this.user.phoneNo,
+      about: this.user.about,
+      location: this.user.location,
+    };
+
+    if (this.selectedFile) {
+      updatedData.profilePicture = this.selectedFile;
+    }
+
+    this.servicesService.updateProfile(updatedData).subscribe({
+      next: (res) => {
+        alert('Profile updated successfully!');
+        this.loadUserProfile();
+      },
+      error: (err) => {
+        console.error('Update failed:', err);
+        alert('Failed to update profile.');
+      }
+    });
+  }
+
+  cancelEdit(): void {
+    this.goBack();
+  }
+
   goBack(): void {
     this.location.back();
-  }
-
-  // Handle avatar image upload
-  onAvatarUpload(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const avatar = document.getElementById('profileAvatar') as HTMLImageElement;
-        if (avatar && e.target) {
-          avatar.src = e.target.result as string;
-        }
-      };
-      reader.readAsDataURL(input.files[0]);
-    }
-  }
-
-  // Set selected privacy visibility
-  setPrivacyOption(option: 'public' | 'followers' | 'private'): void {
-    this.profileForm.privacySettings.visibility = option;
-  }
-
-  // Set selected accent color
-  setAccentColor(color: string): void {
-    this.profileForm.preferences.accentColor = color;
-    console.log('Accent color changed to:', color);
-  }
-
-  // Save profile info
-  saveProfile(): void {
-    console.log('Profile saved:', this.profileForm);
-  }
-
-  // Save privacy settings
-  savePrivacySettings(): void {
-    console.log('Privacy settings saved:', this.profileForm.privacySettings);
-  }
-
-  // Save preferences
-  savePreferences(): void {
-    console.log('Preferences saved:', this.profileForm.preferences);
   }
 }

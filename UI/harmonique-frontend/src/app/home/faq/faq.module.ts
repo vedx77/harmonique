@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { routes } from '../../app.routes';
 import { FaqRoutingModule } from './faq-routing.module';
 
-
 @NgModule({
   declarations: [],
   imports: [

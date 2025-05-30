@@ -42,7 +42,7 @@ export class AppComponent implements OnDestroy {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event) => {
         if (event instanceof NavigationEnd) {
-          const currentUrl = event.url.split('?')[0]; // Remove query params
+          const currentUrl = event.url.split('?')[0];
 
           this.showLayout = !NO_LAYOUT_ROUTES.includes(currentUrl);
           this.showNavAndSidebar = !NO_LAYOUT_ROUTES.includes(currentUrl);

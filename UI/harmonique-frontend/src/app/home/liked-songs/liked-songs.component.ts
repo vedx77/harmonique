@@ -20,6 +20,7 @@ export class LikedSongsComponent implements OnInit {
   likedSongs: any[] = [];
   userId: number = 0;
   likedSongIds: number[] = [];
+  isGridView: boolean = true;
 
   constructor(
     private likeService: LikeService,
@@ -55,6 +56,10 @@ export class LikedSongsComponent implements OnInit {
       },
       error: (err) => console.error('Error fetching user profile:', err)
     });
+  }
+
+  toggleView(): void {
+    this.isGridView = !this.isGridView;
   }
 
   toggleLike(songId: number): void {
