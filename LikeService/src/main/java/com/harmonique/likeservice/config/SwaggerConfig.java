@@ -10,6 +10,9 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Swagger/OpenAPI configuration for generating interactive API documentation.
+ */
 @Configuration
 public class SwaggerConfig {
 
@@ -23,7 +26,7 @@ public class SwaggerConfig {
                         .contact(new Contact()
                                 .name("Vedant Shinde")
                                 .email("ved.shinde77@gmail.com")
-                                .url("https://github.com/vedx77/harmonique")) 
+                                .url("https://github.com/vedx77/harmonique"))
                         .license(new License()
                                 .name("Apache 2.0")
                                 .url("http://www.apache.org/licenses/LICENSE-2.0.html")))
@@ -32,6 +35,7 @@ public class SwaggerConfig {
                         .addSecuritySchemes("Bearer Authentication", createAPIKeyScheme()));
     }
 
+    // Defines Bearer Authentication scheme for securing APIs
     private SecurityScheme createAPIKeyScheme() {
         return new SecurityScheme()
                 .type(SecurityScheme.Type.HTTP)
