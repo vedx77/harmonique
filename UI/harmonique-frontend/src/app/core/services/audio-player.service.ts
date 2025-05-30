@@ -46,6 +46,10 @@ export class AudioPlayerService {
     this._currentSongIndex.next(0); // Start from the first song
   }
 
+  // setSongs(songs: any[]): void {
+  //   this._songs.next(songs);
+  // }
+
   setCurrentSongIndex(index: number): void {
     this._currentSongIndex.next(index);
     if (index >= 0 && index < this.songs.length) {

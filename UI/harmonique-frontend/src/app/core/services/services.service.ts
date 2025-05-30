@@ -2,12 +2,15 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServicesService {
   http = inject(HttpClient);
+  authService = inject(AuthService);
 
   login(data: { email: string, password: string }): Observable<any> {
     const url = environment.login + '/login';
@@ -68,7 +71,12 @@ export class ServicesService {
       formData.append('file', data.profilePicture);
     }
 
-    return this.http.put<any>(url, formData);
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.put<any>(url, formData, { headers });
   }
 
   uploadProfilePicture(file: File): Observable<any> {
