@@ -3,9 +3,9 @@ package com.harmonique.userservice.service.impl;
 import com.harmonique.userservice.entity.Role;
 import com.harmonique.userservice.entity.User;
 import com.harmonique.userservice.exception.EmailAlreadyExistsException;
-import com.harmonique.userservice.exception.MissingContactInformationException;
 import com.harmonique.userservice.exception.ResourceNotFoundException;
 import com.harmonique.userservice.exception.UsernameAlreadyExistsException;
+import com.harmonique.userservice.payload.EditUserRequest;
 import com.harmonique.userservice.payload.JwtAuthRequest;
 import com.harmonique.userservice.payload.JwtAuthResponse;
 import com.harmonique.userservice.payload.UserRequest;
@@ -16,6 +16,8 @@ import com.harmonique.userservice.security.CustomUserDetails;
 import com.harmonique.userservice.security.JwtTokenHelper;
 import com.harmonique.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,7 +32,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Set;
 
+/**
+ * Implementation of the UserService interface.
+ * Provides functionality for user registration, authentication,
+ * profile editing, and fetching user information.
+ */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -40,82 +49,23 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
     private final JwtTokenHelper jwtTokenHelper;
-    
+
     @Value("${user.upload.dir}")
     private String uploadDir;
-    
+
     @Value("${user.access.url}")
     private String uploadAccessUrl;
 
-//    @Override
-//    public UserResponse registerUser(UserRequest userRequest) {
-//    	
-//    	// 1. At least one contact method must be provided
-//        if ((userRequest.getEmail() == null || userRequest.getEmail().isBlank()) &&
-//            (userRequest.getPhoneNo() == null || userRequest.getPhoneNo().isBlank())) {
-//            throw new MissingContactInformationException("Either email or phone number must be provided");
-//        }
-//        
-//        // 2. Uniqueness checks
-//        if (userRepository.existsByEmail(userRequest.getEmail())) {
-//            throw new EmailAlreadyExistsException("Email already in use");
-//        }
-//
-//        if (userRepository.existsByUsername(userRequest.getUsername())) {
-//            throw new UsernameAlreadyExistsException("Username already in use");
-//        }
-//
-//        User user = User.builder()
-//                .firstName(userRequest.getFirstName())
-//                .lastName(userRequest.getLastName())
-//                .username(userRequest.getUsername())
-//                .email(userRequest.getEmail())
-//                .password(passwordEncoder.encode(userRequest.getPassword()))
-//                .profilePictureUrl(userRequest.getProfilePictureUrl())
-//                .phoneNo(userRequest.getPhoneNo())
-//                .about(userRequest.getAbout())
-//                .location(userRequest.getLocation())
-//                .build();
-//
-//        Role role = roleRepository.findById(1L)
-//                .orElseThrow(() -> new ResourceNotFoundException("Role", "id", 1L));
-//
-//        user.getRoles().add(role);
-//
-//        User savedUser = userRepository.save(user);
-//
-//        return mapToUserResponse(savedUser);
-//    }
-    
-//    @Override
-//    public UserResponse registerUser(UserRequest request, MultipartFile file) throws IOException {
-//        User user = new User();
-//        user.setFirstName(request.getFirstName());
-//        user.setLastName(request.getLastName());
-//        user.setUsername(request.getUsername());
-//        user.setEmail(request.getEmail());
-//        user.setPhoneNo(request.getPhoneNo());
-//        user.setPassword(passwordEncoder.encode(request.getPassword()));
-//        user.setAbout(request.getAbout());
-//        user.setLocation(request.getLocation());
-//
-//        if (file != null && !file.isEmpty()) {
-//            String uploadDir = new File(this.uploadDir).getAbsolutePath();
-//            new File(uploadDir).mkdirs();
-//
-//            String fileName = user.getUsername() + "_" + System.currentTimeMillis() + "_" + file.getOriginalFilename();
-//            Path filePath = Paths.get(uploadDir, fileName);
-//            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-//
-//            user.setProfilePictureUrl(fileName); // Or use uploadAccessUrl + fileName if needed
-//        }
-//
-//        userRepository.save(user);
-//        return mapToUserResponse(user);
-//    }
-    
+    /**
+     * Registers a new user with the default ROLE_USER and optional profile picture.
+     *
+     * @param request the user registration details
+     * @return the registered user as a UserResponse
+     * @throws IOException if the file upload fails
+     */
     @Override
     public UserResponse registerUser(UserRequest request) throws IOException {
+        log.info("Registering new user: {}", request.getEmail());
         User user = new User();
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
@@ -127,38 +77,33 @@ public class UserServiceImpl implements UserService {
         user.setLocation(request.getLocation());
 
         MultipartFile file = request.getFile();
-
-//        if (file != null && !file.isEmpty()) {
-//            String uploadDir = new File(this.uploadDir).getAbsolutePath();
-//            new File(uploadDir).mkdirs();
-//
-//            String fileName = user.getUsername() + "_" + System.currentTimeMillis() + "_" + file.getOriginalFilename();
-//            Path filePath = Paths.get(uploadDir, fileName);
-//            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-//
-//            user.setProfilePictureUrl(fileName);
-//        }
-        
         if (file != null && !file.isEmpty()) {
             String uploadDir = new File(this.uploadDir).getAbsolutePath();
             File directory = new File(uploadDir);
-            if (!directory.exists()) {
-                directory.mkdirs();
-            }
+            if (!directory.exists()) directory.mkdirs();
 
             String fileName = user.getEmail() + "_" + System.currentTimeMillis() + "_" + file.getOriginalFilename();
             Path filePath = Paths.get(uploadDir, fileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
             user.setProfilePictureUrl(fileName);
         }
 
+        Role defaultRole = roleRepository.findByName("ROLE_USER")
+                .orElseThrow(() -> new RuntimeException("Default role not found!"));
+        user.setRoles(Set.of(defaultRole));
+
         userRepository.save(user);
+        log.info("User registered successfully: {}", user.getId());
+
         return mapToUserResponse(user);
     }
 
+    /**
+     * Registers an admin with a fixed role ID.
+     */
     @Override
     public UserResponse registerAdmin(UserRequest userRequest) {
+        log.info("Registering new admin: {}", userRequest.getEmail());
         User user = User.builder()
                 .firstName(userRequest.getFirstName())
                 .email(userRequest.getEmail())
@@ -168,83 +113,142 @@ public class UserServiceImpl implements UserService {
 
         Role role = roleRepository.findById(3L)
                 .orElseThrow(() -> new ResourceNotFoundException("Role", "id", 3L));
-
         user.getRoles().add(role);
 
         User savedUser = userRepository.save(user);
+        log.info("Admin registered: {}", savedUser.getId());
 
         return mapToUserResponse(savedUser);
     }
 
+    /**
+     * Edits an existing user's profile.
+     */
     @Override
-    public UserResponse getUserByEmail(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
+    public UserResponse editUserProfile(String emailFromJwt, EditUserRequest request) throws IOException {
+        User user = userRepository.findByEmail(emailFromJwt)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", emailFromJwt));
 
+        log.info("Editing profile for: {}", emailFromJwt);
+
+        if (request.getFirstName() != null && !request.getFirstName().isBlank()) user.setFirstName(request.getFirstName());
+        if (request.getLastName() != null && !request.getLastName().isBlank()) user.setLastName(request.getLastName());
+        if (request.getUsername() != null && !request.getUsername().isBlank()) {
+            if (!request.getUsername().equals(user.getUsername()) &&
+                userRepository.existsByUsername(request.getUsername())) {
+                throw new UsernameAlreadyExistsException("Username already taken.");
+            }
+            user.setUsername(request.getUsername());
+        }
+        if (request.getEmail() != null && !request.getEmail().isBlank()) {
+            if (!request.getEmail().equals(user.getEmail()) &&
+                userRepository.existsByEmail(request.getEmail())) {
+                throw new EmailAlreadyExistsException("Email already in use.");
+            }
+            user.setEmail(request.getEmail());
+        }
+        if (request.getPhoneNo() != null && !request.getPhoneNo().isBlank()) user.setPhoneNo(request.getPhoneNo());
+        if (request.getAbout() != null && !request.getAbout().isBlank()) user.setAbout(request.getAbout());
+        if (request.getLocation() != null && !request.getLocation().isBlank()) user.setLocation(request.getLocation());
+
+        MultipartFile file = request.getFile();
+        if (file != null && !file.isEmpty()) {
+            String uploadDir = new File(this.uploadDir).getAbsolutePath();
+            File directory = new File(uploadDir);
+            if (!directory.exists()) directory.mkdirs();
+
+            String fileName = user.getEmail() + "_" + System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            Path filePath = Paths.get(uploadDir, fileName);
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+            user.setProfilePictureUrl(fileName);
+        }
+
+        log.debug("Final profile data before save: {}", user);
+        userRepository.save(user);
         return mapToUserResponse(user);
     }
 
+    /**
+     * Fetches a user by email.
+     */
+    @Override
+    public UserResponse getUserByEmail(String email) {
+        log.info("Fetching user by email: {}", email);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
+        return mapToUserResponse(user);
+    }
+
+    /**
+     * Authenticates a user and returns a JWT token.
+     */
     @Override
     public JwtAuthResponse login(JwtAuthRequest request) {
+        log.info("Login attempt for email: {}", request.getEmail());
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "email", request.getEmail()));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            log.warn("Invalid login credentials for: {}", request.getEmail());
             throw new BadCredentialsException("Invalid email or password !!");
         }
 
-        CustomUserDetails userDetails = new CustomUserDetails(user);
-        String token = jwtTokenHelper.generateToken(userDetails);
+        String token = jwtTokenHelper.generateToken(new CustomUserDetails(user));
+        log.info("Login successful: {}", user.getId());
 
-        return JwtAuthResponse.builder()
-                .token(token)
-                .user(mapToUserResponse(user))
-                .build();
+        return JwtAuthResponse.builder().token(token).user(mapToUserResponse(user)).build();
     }
 
+    /**
+     * Retrieves user profile by email.
+     */
     @Override
     public UserResponse getUserProfile(String username) {
+        log.info("Retrieving profile for: {}", username);
         User user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "email", username));
-
         return mapToUserResponse(user);
     }
-    
+
+    /**
+     * Updates a user's profile picture.
+     */
     @Override
     public UserResponse updateProfilePicture(String username, MultipartFile file) throws IOException {
+        log.info("Updating profile picture for: {}", username);
         User user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "email", username));
 
         String uploadDir = new File(this.uploadDir).getAbsolutePath();
         File directory = new File(uploadDir);
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
+        if (!directory.exists()) directory.mkdirs();
 
         String fileName = username + "_" + System.currentTimeMillis() + "_" + file.getOriginalFilename();
         Path filePath = Paths.get(uploadDir, fileName);
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        //user.setProfilePictureUrl(uploadAccessUrl + fileName);
         user.setProfilePictureUrl(fileName);
         userRepository.save(user);
 
         return mapToUserResponse(user);
     }
 
-
+    /**
+     * Retrieves all users in the system.
+     */
     @Override
     public List<UserResponse> getAllUsers() {
+        log.info("Fetching all users");
         List<User> users = userRepository.findAll();
-        return users.stream()
-                .map(this::mapToUserResponse)
-                .toList();
+        return users.stream().map(this::mapToUserResponse).toList();
     }
 
-    // ✅ Reusable helper methods
+    /**
+     * Converts a User entity to UserResponse DTO.
+     */
     private UserResponse mapToUserResponse(User user) {
         UserResponse response = modelMapper.map(user, UserResponse.class);
-        response.setRoles(user.getRoles()); // ensure roles are set
+        response.setRoles(user.getRoles());
         return response;
     }
 }

@@ -5,48 +5,17 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-//@Entity
-//@Table(name = "users")
-//@Getter
-//@Setter
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@Builder
-//public class User {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-//    
-//    @Column(name = "profile_picture")
-//    private String profilePictureUrl;
-//
-//    @NotBlank(message = "Name is required")
-//    private String name;
-//
-//    @Column(unique = true, nullable = false)
-//    @Email(message = "Invalid email format")
-//    @NotBlank(message = "Email is required")
-//    private String email;
-//
-//    @Size(min = 6, message = "Password must be at least 6 characters")
-//    private String password;
-//
-//    private String about;
-//
-//    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @JoinTable(
-//            name = "user_roles",
-//            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
-//    )
-//   
-//    @Builder.Default
-//    private Set<Role> roles = new HashSet<>();
-//}
-
+/**
+ * User entity representing a registered user in the system.
+ * Stores personal details, credentials, roles, and timestamps.
+ */
 @Entity
 @Table(name = "users")
 @Getter
@@ -58,10 +27,10 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; // Primary key
 
     @Column(name = "profile_picture")
-    private String profilePictureUrl;
+    private String profilePictureUrl; // Optional profile picture URL
 
     @NotBlank(message = "First name is required")
     @Column(name = "first_name", nullable = false)
@@ -82,7 +51,7 @@ public class User {
     @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
 
-    private String about;
+    private String about; // Optional "About Me" section
 
     @Column(name = "phone_no")
     private String phoneNo;
@@ -90,6 +59,11 @@ public class User {
     @Column(name = "location")
     private String location;
 
+    /**
+     * A user can have multiple roles.
+     * Fetch type is EAGER to always load roles with the user.
+     * Cascade ALL to propagate operations (save, delete) to roles if needed.
+     */
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
         name = "user_roles",
@@ -98,4 +72,12 @@ public class User {
     )
     @Builder.Default
     private Set<Role> roles = new HashSet<>();
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt; // Timestamp when user is created
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt; // Timestamp when user is updated
 }
